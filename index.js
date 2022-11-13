@@ -7,6 +7,7 @@ const app = express();
 //   console.error("FATAL ERROR: JWT private key not defined");
 //   process.exit(1);
 // }
+require('./startup/cors')(app);
 require('./startup/routes')(app);
 require('./startup/database')();
 
