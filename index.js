@@ -9,7 +9,7 @@ const app = express();
 // }
 require('./startup/cors')(app);
 require('./startup/routes')(app);
-// require('./startup/database')();
+require('./startup/database')();
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
