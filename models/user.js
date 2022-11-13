@@ -16,7 +16,7 @@ const schema = new mongoose.Schema({
 schema.methods.generateAuthToken = function () {
   // generate token with the following payload
   // jwt private key will be stored in an environment variable
-  // include isAdmin property
+  // include isAdmin property ...
   return jwt.sign(
     { _id: this._id, isAdmin: this.isAdmin },
     config.get('jwtPrivateKey')
