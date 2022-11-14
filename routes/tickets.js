@@ -4,7 +4,7 @@ const { Ticket } = require('../models/ticket');
 const authentication = require('../middleware/authentication');
 const admin = require('../middleware/admin');
 
-router.get('/', async (req, res) => {
+router.get('/', authentication, async (req, res) => {
   const tickets = await Ticket.find();
   res.send(tickets);
 });

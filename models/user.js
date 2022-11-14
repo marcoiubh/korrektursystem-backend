@@ -18,7 +18,7 @@ schema.methods.generateAuthToken = function () {
   // jwt private key will be stored in an environment variable
   // include isAdmin property ...
   return jwt.sign(
-    { _id: this._id, isAdmin: this.isAdmin },
+    { _id: this._id, name: this.email, isAdmin: this.isAdmin },
     config.get('jwtPrivateKey')
   );
 };

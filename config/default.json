@@ -1,5 +1,7 @@
 {
-  "_database": "mongodb://localhost/kms",
-  "database": "mongodb+srv://vidly:1234@vidly.kiogyac.mongodb.net/kms",
+  "database": {
+    "development": "mongodb://localhost/kms",
+    "production": "mongodb+srv://vidly:1234@vidly.kiogyac.mongodb.net/kms"
+  },
   "jwtPrivateKey": ""
 }
