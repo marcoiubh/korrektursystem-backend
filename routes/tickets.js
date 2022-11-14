@@ -9,14 +9,14 @@ router.get('/', authentication, async (req, res) => {
   res.send(tickets);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authentication, async (req, res) => {
   const ticket = await Ticket.find({ _id: req.params.id });
   res.send(ticket);
 });
 
 // authentication middleware protects routes
-// authentication
-router.post('/', async (req, res) => {
+
+router.post('/', authentication, async (req, res) => {
   const ticket = new Ticket({
     _id: req.body._id,
     title: req.body.title,
@@ -30,8 +30,10 @@ router.post('/', async (req, res) => {
   await ticket.save();
   res.send(ticket);
 });
-// authentication
-router.put('/:id', async (req, res) => {
+
+// two middleware functions authentication, then check for admin
+// [authentication, admin],
+router.put('/:id', [authentication, admin], async (req, res) => {
   let ticket = await Ticket.findOneAndUpdate(
     { _id: req.params.id },
     {
@@ -49,8 +51,6 @@ router.put('/:id', async (req, res) => {
   res.send(ticket);
 });
 
-// two middleware functions authentication, then check for admin
-// [authentication, admin],
 router.delete('/:id', async (req, res) => {
   const ticket = await Ticket.deleteOne({ _id: req.params._id });
   res.send(ticket);

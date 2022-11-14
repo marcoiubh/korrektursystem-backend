@@ -3,5 +3,6 @@
     "development": "mongodb://localhost/kms",
     "production": "mongodb+srv://vidly:1234@vidly.kiogyac.mongodb.net/kms"
   },
-  "jwtPrivateKey": ""
+  "jwtPrivateKey": "",
+  "requiresAuthentication": true
 }

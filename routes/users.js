@@ -12,7 +12,9 @@ router.get('/me', authorization, async (req, res) => {
   // instead of sending information about the user,
   // it is extracted from the jwt
   // the password will be excluded!
-  const user = await User.findById(req.user._id).select('-password');
+  const user = await User.findById(req.user.email).select(
+    '-password'
+  );
   res.send(user);
 });
 
@@ -31,7 +33,7 @@ router.post('/', async (req, res) => {
   //   password: req.body.password,
   // });
   user = new User(
-    _.pick(req.body, ['id', 'name', 'email', 'password'])
+    _.pick(req.body, ['id', 'name', 'email', 'password', 'isAdmin'])
   );
 
   // generate salt
