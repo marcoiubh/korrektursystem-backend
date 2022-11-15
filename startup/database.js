@@ -2,11 +2,10 @@ const mongoose = require('mongoose');
 const config = require('config');
 
 module.exports = function () {
-  // // choosing database depends on the current environment
-  // let environment = process.env.NODE_ENV;
-  // if (typeof environment === 'undefined') environment = 'development';
-  // console.log(`environment: ${environment}`);
-
+  // choosing database depends on the current environment
+  // heroku sets NODE_ENV to 'production' automatically
+  // /config/production.json must be set
+  // visual code picks default.json
   const database = config.get('database');
   mongoose
     .connect(database)

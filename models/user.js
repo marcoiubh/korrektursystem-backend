@@ -16,6 +16,7 @@ const schema = new mongoose.Schema({
 schema.methods.generateAuthToken = function () {
   // generate token with the following payload
   // jwt private key will be stored in an environment variable
+  // and must be set in heroku as config var as well!
   // include isAdmin property ...
   return jwt.sign(
     { name: this.email, isAdmin: this.isAdmin },
