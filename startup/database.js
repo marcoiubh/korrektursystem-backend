@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 const config = require('config');
 
 module.exports = function () {
-  // choosing database depends on the current environment
-  let environment = process.env.NODE_ENV;
-  if (typeof environment === 'undefined') environment = 'development';
-  console.log(`environment: ${environment}`);
+  // // choosing database depends on the current environment
+  // let environment = process.env.NODE_ENV;
+  // if (typeof environment === 'undefined') environment = 'development';
+  // console.log(`environment: ${environment}`);
 
-  const database = config.get(environment);
+  const database = config.get('database');
   mongoose
     .connect(database)
     .then(() => console.log(`connected to ${database}`))
