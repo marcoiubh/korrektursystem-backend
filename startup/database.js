@@ -7,8 +7,7 @@ module.exports = function () {
   if (typeof environment === 'undefined') environment = 'development';
   console.log(`environment: ${environment}`);
 
-  const configuration = 'database.' + environment;
-  const database = config.get(configuration);
+  const database = config.get(environment);
   mongoose
     .connect(database)
     .then(() => console.log(`connected to ${database}`))
