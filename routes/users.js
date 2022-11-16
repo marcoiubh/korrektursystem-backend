@@ -24,16 +24,9 @@ router.post('/', async (req, res) => {
   let user = await User.findOne({ email: req.body.email });
   if (user) return res.status(400).send('User already registred.');
 
-  // joi-password-complexity !!
-
-  // user = new User({
-  //   id: req.body.id,
-  //   name: req.body.name,
-  //   email: req.body.email,
-  //   password: req.body.password,
-  // });
+  // user = new User({ id: req.body.id, ...
   user = new User(
-    _.pick(req.body, ['id', 'name', 'email', 'password', 'isAdmin'])
+    _.pick(req.body, ['email', 'password', 'role', 'courses'])
   );
 
   // generate salt
@@ -51,8 +44,8 @@ router.post('/', async (req, res) => {
   // the second value is the header
   // this header value can be stored at the client and then be used for authentication
   res
-    .header('x-auth-token', token)
-    .send(_.pick(user, ['name', 'email']));
+    .setHeader('x-auth-token', token)
+    .send(_.pick(user, ['email', 'role']));
 });
 
 module.exports = router;

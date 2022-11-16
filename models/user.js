@@ -5,21 +5,21 @@ const config = require('config');
 // each token must be regenerated after changes have been made
 // to check the content of a token: jwt.io
 const schema = new mongoose.Schema({
-  name: String,
   email: { type: String, unique: true },
   password: String,
-  isAdmin: Boolean,
-  roles: [],
-  permittedOperations: [],
+  role: { type: String, enum: ['student', 'professor'] },
+  courses: [String],
+  // isAdmin: Boolean,
+  // permittedOperations: [],
 });
 
 schema.methods.generateAuthToken = function () {
   // generate token with the following payload
   // jwt private key will be stored in an environment variable
   // and must be set in heroku as config var as well!
-  // include isAdmin property ...
+  // terminal: export kms_jwtPrivateKey=
   return jwt.sign(
-    { name: this.email, isAdmin: this.isAdmin },
+    { name: this.email, role: this.role },
     config.get('jwtPrivateKey')
   );
 };

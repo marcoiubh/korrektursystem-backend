@@ -1,16 +1,19 @@
 const mongoose = require('mongoose');
 
-const schema = new mongoose.Schema({
-  _id: String,
-  title: String,
-  date: Date,
-  priority: String,
-  module: String,
-  type: String,
-  source: String,
-  status: String,
-  comment: String,
-});
+const schema = new mongoose.Schema(
+  {
+    title: String,
+    date: String,
+    priority: String,
+    module: String,
+    type: String,
+    source: String,
+    status: String,
+    comment: String,
+    statement: String,
+  },
+  { versionKey: false }
+);
 
 const Ticket = mongoose.model('Ticket', schema);
 

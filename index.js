@@ -3,7 +3,7 @@ const config = require('config');
 const app = express();
 
 // making sure the environment variable is set or quit
-// export vidly_jwtPrivateKey=1234
+// export kms_jwtPrivateKey=1234
 if (!config.get('jwtPrivateKey')) {
   console.error('FATAL ERROR: JWT private key not defined');
   process.exit(1);
