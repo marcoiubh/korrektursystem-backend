@@ -26,3 +26,8 @@ heroku domains -a <appname>
 
 - REACT_APP_API_URL=https://korrektursystem-backend.herokuapp.com/
 - change heroku frontend config vars to this API_URL !!
+
+- package.json > scripts, add:
+  "start": "index.js",
+- do not forget to set port to environment variable:
+  const port = process.env.NODE_ENV || 3000
