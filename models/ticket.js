@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema(
   {
     comment: String,
-    date: String,
+    date: { type: Date, default: Date.now },
     module: String,
     priority: String,
     source: String,

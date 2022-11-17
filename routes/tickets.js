@@ -10,8 +10,13 @@ router.get('/:id', authentication, async (req, res) => {
 });
 
 router.get('/', authentication, async (req, res) => {
-  // database query with student email in header
-  const ticket = await Ticket.find({ student: req.headers.student });
+  // find tickets based on student email or role
+  let ticket = {};
+  if (req.query.student) {
+    ticket = await Ticket.find({ student: req.query.student });
+  } else if (req.query.professor) {
+    ticket = await Ticket.find();
+  }
   res.json(ticket);
 });
 
@@ -20,7 +25,6 @@ router.get('/', authentication, async (req, res) => {
 router.post('/', authentication, async (req, res) => {
   const ticket = new Ticket({
     comment: req.body.comment,
-    date: req.body.date,
     module: req.body.module,
     priority: req.body.priority,
     source: req.body.source,
@@ -41,7 +45,6 @@ router.put('/:id', [authentication], async (req, res) => {
     { _id: req.params.id },
     {
       comment: req.body.comment,
-      date: req.body.date,
       module: req.body.module,
       priority: req.body.priority,
       source: req.body.source,
