@@ -1,10 +1,9 @@
+const _ = require('lodash');
+const { User } = require('../models/user');
+const authorization = require('../middleware/authentication');
+const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
-const { User } = require('../models/user');
-const _ = require('lodash');
-const bcrypt = require('bcrypt');
-// here it is all about authorization; does the user has access?
-const authorization = require('../middleware/authentication');
 
 // get the user from the token
 // for security reasons use "me"

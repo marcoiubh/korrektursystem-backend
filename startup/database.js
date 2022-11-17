@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
 const config = require('config');
+const mongoose = require('mongoose');
 
 module.exports = function () {
   // choosing database depends on the current environment

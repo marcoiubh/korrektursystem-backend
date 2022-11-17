@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 const config = require('config');
+const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 // each token must be regenerated after changes have been made
 // to check the content of a token: jwt.io

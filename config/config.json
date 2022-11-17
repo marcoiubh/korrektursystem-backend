@@ -1,12 +1,12 @@
 {
   "ticket": {
-    "title": "",
+    "comment": "",
     "date": "",
-    "priority": "",
     "module": "",
-    "type": "",
+    "priority": "",
     "source": "",
     "status": "",
-    "comment": ""
+    "title": "",
+    "type": ""
   }
 }

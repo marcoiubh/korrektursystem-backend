@@ -1,8 +1,8 @@
-const express = require('express');
-const tickets = require('../routes/tickets');
-const root = require('../routes/root');
-const users = require('../routes/users');
 const authentication = require('../routes/authentication');
+const express = require('express');
+const root = require('../routes/root');
+const tickets = require('../routes/tickets');
+const users = require('../routes/users');
 
 module.exports = function (app) {
   app.use(express.json());
