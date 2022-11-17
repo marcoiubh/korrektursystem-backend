@@ -6,6 +6,7 @@ module.exports = function () {
   // heroku sets NODE_ENV to 'production' automatically
   // /config/production.json must be set
   // visual code picks default.json
+  // also set mongodb in heroku: MONGODB_URI = mongodb+srv://vidly:1234@vidly.kiogyac.mongodb.net/database
   const database = config.get('database');
   mongoose
     .connect(database)
