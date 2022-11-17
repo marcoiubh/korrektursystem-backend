@@ -2,15 +2,16 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema(
   {
-    title: String,
-    date: String,
-    priority: String,
-    module: String,
-    type: String,
-    source: String,
-    status: String,
     comment: String,
+    date: String,
+    module: String,
+    priority: String,
+    source: String,
     statement: String,
+    status: String,
+    student: String,
+    title: String,
+    type: String,
   },
   { versionKey: false }
 );

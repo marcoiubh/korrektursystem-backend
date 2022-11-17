@@ -1,16 +1,17 @@
+const { Ticket } = require('../models/ticket');
+const admin = require('../middleware/admin');
+const authentication = require('../middleware/authentication');
 const express = require('express');
 const router = express.Router();
-const { Ticket } = require('../models/ticket');
-const authentication = require('../middleware/authentication');
-const admin = require('../middleware/admin');
-
-router.get('/', authentication, async (req, res) => {
-  const tickets = await Ticket.find();
-  res.send(tickets);
-});
 
 router.get('/:id', authentication, async (req, res) => {
   const ticket = await Ticket.find({ _id: req.params.id });
+  res.json(ticket);
+});
+
+router.get('/', authentication, async (req, res) => {
+  // database query with student email in header
+  const ticket = await Ticket.find({ student: req.headers.student });
   res.json(ticket);
 });
 
@@ -18,15 +19,16 @@ router.get('/:id', authentication, async (req, res) => {
 
 router.post('/', authentication, async (req, res) => {
   const ticket = new Ticket({
-    title: req.body.title,
-    date: req.body.date,
-    priority: req.body.priority,
-    module: req.body.module,
-    type: req.body.type,
-    source: req.body.source,
-    status: req.body.status,
     comment: req.body.comment,
+    date: req.body.date,
+    module: req.body.module,
+    priority: req.body.priority,
+    source: req.body.source,
     statement: req.body.statement,
+    status: req.body.status,
+    student: req.body.student,
+    title: req.body.title,
+    type: req.body.type,
   });
   await ticket.save();
   res.json(ticket);
@@ -38,15 +40,16 @@ router.put('/:id', [authentication], async (req, res) => {
   let ticket = await Ticket.findOneAndUpdate(
     { _id: req.params.id },
     {
-      title: req.body.title,
-      date: req.body.date,
-      priority: req.body.priority,
-      module: req.body.module,
-      type: req.body.type,
-      source: req.body.source,
-      status: req.body.status,
       comment: req.body.comment,
+      date: req.body.date,
+      module: req.body.module,
+      priority: req.body.priority,
+      source: req.body.source,
       statement: req.body.statement,
+      status: req.body.status,
+      student: req.body.student,
+      title: req.body.title,
+      type: req.body.type,
     },
     { new: true }
   );

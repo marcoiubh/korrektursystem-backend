@@ -4,14 +4,17 @@ const config = require('config');
 
 // each token must be regenerated after changes have been made
 // to check the content of a token: jwt.io
-const schema = new mongoose.Schema({
-  email: { type: String, unique: true },
-  password: String,
-  role: { type: String, enum: ['student', 'professor'] },
-  courses: [String],
-  // isAdmin: Boolean,
-  // permittedOperations: [],
-});
+const schema = new mongoose.Schema(
+  {
+    email: { type: String, unique: true },
+    password: String,
+    role: { type: String, enum: ['student', 'professor'] },
+    courses: [String],
+    // isAdmin: Boolean,
+    // permittedOperations: [],
+  },
+  { versionKey: false }
+);
 
 schema.methods.generateAuthToken = function () {
   // generate token with the following payload
