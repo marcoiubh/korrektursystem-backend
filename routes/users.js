@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { User } = require('../models/user');
+const Module = require('../models/module');
 const authorization = require('../middleware/authentication');
 const bcrypt = require('bcrypt');
 const express = require('express');
@@ -11,10 +12,14 @@ router.get('/me', authorization, async (req, res) => {
   // instead of sending information about the user,
   // it is extracted from the jwt
   // the password will be excluded!
-  const user = await User.findById(req.user.email).select(
-    '-password'
+  const user = await User.find({ email: req.user.name }).populate(
+    'modules',
+    '-_id -__v -users'
   );
-  res.send(user);
+
+  // export list of modules of that user
+
+  res.json(user);
 });
 
 // register a new user
@@ -25,7 +30,7 @@ router.post('/', async (req, res) => {
 
   // user = new User({ id: req.body.id, ...
   user = new User(
-    _.pick(req.body, ['email', 'password', 'role', 'courses'])
+    _.pick(req.body, ['email', 'password', 'role', 'modules'])
   );
 
   // generate salt
@@ -46,5 +51,16 @@ router.post('/', async (req, res) => {
     .setHeader('x-auth-token', token)
     .send(_.pick(user, ['email', 'role']));
 });
+
+const addUserToModule = function (courseId, user) {
+  return Module.findByIdAndUpdate(
+    courseId,
+    { $push: { users: professor._id } },
+    { new: true, useFindAndModify: false }
+  );
+};
+const getUserWithPopulate = function (id) {
+  return User.findById(id).populate('courses', '-_id -__v -users');
+};
 
 module.exports = router;

@@ -9,7 +9,12 @@ const schema = new mongoose.Schema(
     email: { type: String, unique: true },
     password: String,
     role: { type: String, enum: ['student', 'professor'] },
-    courses: [String],
+    modules: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Module',
+      },
+    ],
     // isAdmin: Boolean,
     // permittedOperations: [],
   },

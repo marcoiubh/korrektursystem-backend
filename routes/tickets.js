@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { Ticket } = require('../models/ticket');
 const admin = require('../middleware/admin');
 const authentication = require('../middleware/authentication');
@@ -23,17 +24,19 @@ router.get('/', authentication, async (req, res) => {
 // authentication middleware protects routes
 
 router.post('/', authentication, async (req, res) => {
-  const ticket = new Ticket({
-    comment: req.body.comment,
-    module: req.body.module,
-    priority: req.body.priority,
-    source: req.body.source,
-    statement: req.body.statement,
-    status: req.body.status,
-    student: req.body.student,
-    title: req.body.title,
-    type: req.body.type,
-  });
+  const ticket = new Ticket(
+    _.pick(req.body, [
+      'comment',
+      'module',
+      'priority',
+      'source',
+      'statement',
+      'status',
+      'student',
+      'title',
+      'type',
+    ])
+  );
   await ticket.save();
   res.json(ticket);
 });
@@ -43,17 +46,17 @@ router.post('/', authentication, async (req, res) => {
 router.put('/:id', [authentication], async (req, res) => {
   let ticket = await Ticket.findOneAndUpdate(
     { _id: req.params.id },
-    {
-      comment: req.body.comment,
-      module: req.body.module,
-      priority: req.body.priority,
-      source: req.body.source,
-      statement: req.body.statement,
-      status: req.body.status,
-      student: req.body.student,
-      title: req.body.title,
-      type: req.body.type,
-    },
+    _.pick(req.body, [
+      'comment',
+      'module',
+      'priority',
+      'source',
+      'statement',
+      'status',
+      'student',
+      'title',
+      'type',
+    ]),
     { new: true }
   );
   res.json(ticket);
