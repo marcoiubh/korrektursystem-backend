@@ -27,6 +27,7 @@ router.post('/new', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  // req body with moduleId and userId required
   const module = await Module.findById({ _id: req.body.moduleId });
   console.log(JSON.stringify(module));
   const user = await addModuleToUser(req.body.userId, module);

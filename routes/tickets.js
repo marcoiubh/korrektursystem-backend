@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { Ticket } = require('../models/ticket');
+const { User } = require('../models/user');
 const admin = require('../middleware/admin');
 const authentication = require('../middleware/authentication');
 const express = require('express');
@@ -10,13 +11,39 @@ router.get('/:id', authentication, async (req, res) => {
   res.json(ticket);
 });
 
+findByModule = async (module) => {
+  return await Ticket.find({ module: module.title });
+};
+
+findAllTickets = async (user) => {
+  // wait until all tickets are fetched
+  return await Promise.all(
+    user.modules.map(async (module) => {
+      // wait for ticket to be fetched
+      return await findByModule(module);
+    })
+  );
+};
+
 router.get('/', authentication, async (req, res) => {
   // find tickets based on student email or role
   let ticket = {};
-  if (req.query.student) {
-    ticket = await Ticket.find({ student: req.query.student });
-  } else if (req.query.professor) {
-    ticket = await Ticket.find();
+  if (req.user.role === 'student') {
+    // only tickets originating from this specific student
+    ticket = await Ticket.find({ student: req.user.email });
+  } else if (req.user.role === 'professor') {
+    // find supervised modules
+    const user = await User.findOne({
+      email: req.user.email,
+    }).populate('modules');
+    console.log(user);
+    // find tickets for each module
+    const ticketArray = await findAllTickets(user);
+    console.log(ticketArray);
+    // TODO: restructure
+    const newArr = [];
+    ticketArray.map((arr) => arr.map((a) => newArr.push(a)));
+    ticket = newArr;
   }
   res.json(ticket);
 });

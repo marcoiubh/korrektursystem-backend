@@ -6,20 +6,33 @@ const bcrypt = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 
+const addUserToModule = function (courseId, user) {
+  return Module.findByIdAndUpdate(
+    courseId,
+    { $push: { users: user._id } },
+    { new: true, useFindAndModify: false }
+  );
+};
+
 // get the user from the token
 // for security reasons use "me"
 router.get('/me', authorization, async (req, res) => {
   // instead of sending information about the user,
   // it is extracted from the jwt
   // the password will be excluded!
-  const user = await User.find({ email: req.user.name }).populate(
-    'modules',
-    '-_id -__v -users'
-  );
-
-  // export list of modules of that user
+  const user = await User.findOne(
+    { email: req.user.email },
+    '-password'
+  ).populate('modules', '-users -_id -__v');
 
   res.json(user);
+});
+
+router.post('/addModule', authorization, async (req, res) => {
+  const user = await User.findOne({ email: req.user.email });
+  console.log(JSON.stringify(user));
+  const module = await addUserToModule(req.body.moduleId, user);
+  res.json(module);
 });
 
 // register a new user
@@ -51,16 +64,5 @@ router.post('/', async (req, res) => {
     .setHeader('x-auth-token', token)
     .send(_.pick(user, ['email', 'role']));
 });
-
-const addUserToModule = function (courseId, user) {
-  return Module.findByIdAndUpdate(
-    courseId,
-    { $push: { users: professor._id } },
-    { new: true, useFindAndModify: false }
-  );
-};
-const getUserWithPopulate = function (id) {
-  return User.findById(id).populate('courses', '-_id -__v -users');
-};
 
 module.exports = router;

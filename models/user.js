@@ -27,7 +27,7 @@ schema.methods.generateAuthToken = function () {
   // and must be set in heroku as config var as well!
   // terminal: export kms_jwtPrivateKey=
   return jwt.sign(
-    { name: this.email, role: this.role },
+    { email: this.email, role: this.role },
     config.get('jwtPrivateKey')
   );
 };
