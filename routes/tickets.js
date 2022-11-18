@@ -36,8 +36,8 @@ router.get('/', authentication, async (req, res) => {
     const user = await User.findOne({
       email: req.user.email,
     }).populate('modules');
-    console.log(user);
     // find tickets for each module
+    if (!user) return;
     const ticketArray = await findAllTickets(user);
     console.log(ticketArray);
     // TODO: restructure
