@@ -61,8 +61,8 @@ router.post('/', async (req, res) => {
   // the second value is the header
   // this header value can be stored at the client and then be used for authentication
   res
-    .setHeader('x-auth-token', token)
-    .send(_.pick(user, ['email', 'role']));
+    .setHeader('x-auth-token', _.escape(token))
+    .send(_.escape(_.pick(user, ['email', 'role'])));
 });
 
 module.exports = router;

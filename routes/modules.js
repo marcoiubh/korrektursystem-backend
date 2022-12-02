@@ -14,11 +14,11 @@ const addModuleToUser = function (userId, module) {
   );
 };
 
-const createModule = function (module) {
-  return Module.create(module).then((docModule) => {
-    return docModule;
-  });
-};
+// const createModule = function (module) {
+//   return Module.create(module).then((docModule) => {
+//     return docModule;
+//   });
+// };
 
 router.post('/new', async (req, res) => {
   const module = await createModule({ title: req.body.title });
