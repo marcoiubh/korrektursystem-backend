@@ -22,6 +22,7 @@ router.post('/', async (req, res) => {
   // generate a token
   const token = user.generateAuthToken();
 
+  // escape output
   res.send(_.escape(token));
 });
 
