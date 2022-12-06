@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema(
   {
     comment: String,
-    date: { type: Date, default: Date.now },
+    date: Date,
     module: String,
     priority: String,
     source: String,
     statement: String,
     status: String,
     student: String,
+    professor: String,
     title: String,
     type: String,
   },

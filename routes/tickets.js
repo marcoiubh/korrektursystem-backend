@@ -6,6 +6,7 @@ const authentication = require('../middleware/authentication');
 const express = require('express');
 const router = express.Router();
 
+// get ticket details
 router.get('/:id', authentication, async (req, res) => {
   const ticket = await Ticket.find({ _id: req.params.id });
   res.json(ticket);
@@ -25,8 +26,8 @@ findAllTickets = async (user) => {
   );
 };
 
+// get all tickets based on role and email
 router.get('/', authentication, async (req, res) => {
-  // find tickets based on student email or role
   let ticket = {};
   if (req.user.role === 'student') {
     // only tickets originating from this specific student
@@ -48,17 +49,15 @@ router.get('/', authentication, async (req, res) => {
   res.json(ticket);
 });
 
-// authentication middleware protects routes
-
+// create a ticket
 router.post('/', authentication, async (req, res) => {
   const ticket = new Ticket(
     _.pick(req.body, [
       'comment',
+      'date',
       'module',
       'priority',
       'source',
-      'statement',
-      'status',
       'student',
       'title',
       'type',
@@ -68,22 +67,11 @@ router.post('/', authentication, async (req, res) => {
   res.json(ticket);
 });
 
-// two middleware functions authentication, then check for admin
-// [authentication, admin],
+// update a ticket
 router.put('/:id', [authentication], async (req, res) => {
   let ticket = await Ticket.findOneAndUpdate(
     { _id: req.params.id },
-    _.pick(req.body, [
-      'comment',
-      'module',
-      'priority',
-      'source',
-      'statement',
-      'status',
-      'student',
-      'title',
-      'type',
-    ]),
+    _.pick(req.body, ['date', 'priority', 'statement', 'status']),
     { new: true }
   );
   res.json(ticket);
