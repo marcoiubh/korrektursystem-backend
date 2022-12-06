@@ -13,6 +13,8 @@ const schema = new mongoose.Schema(
     professor: String,
     title: String,
     type: String,
+    readStudent: Boolean,
+    readProfessor: Boolean,
   },
   { versionKey: false }
 );

@@ -61,6 +61,8 @@ router.post('/', authentication, async (req, res) => {
       'student',
       'title',
       'type',
+      'readProfessor',
+      'readStudent',
     ])
   );
   await ticket.save();
@@ -71,7 +73,14 @@ router.post('/', authentication, async (req, res) => {
 router.put('/:id', [authentication], async (req, res) => {
   let ticket = await Ticket.findOneAndUpdate(
     { _id: req.params.id },
-    _.pick(req.body, ['date', 'priority', 'statement', 'status']),
+    _.pick(req.body, [
+      'date',
+      'priority',
+      'statement',
+      'status',
+      'readStudent',
+      'readProfessor',
+    ]),
     { new: true }
   );
   res.json(ticket);
