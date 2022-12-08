@@ -10,6 +10,20 @@
 "node index.js", 
 "test":"jest"
 },
+"jest": {
+    "roots": [
+      "<rootDir>",
+      "/home/leon/node_modules/resolve/test/resolver/other_path"
+    ],
+    "modulePaths": [
+      "<rootDir>",
+      "/home/leon/node_modules/resolve/test/resolver/other_path"
+    ],
+    "moduleDirectories": [
+    "node_modules",
+    "src"
+    ]
+  },
 "keywords":[],
 "author":"",
 "license":"ISC",
