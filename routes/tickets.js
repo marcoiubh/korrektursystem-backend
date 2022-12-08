@@ -40,7 +40,7 @@ router.get('/', authentication, async (req, res) => {
     // find tickets for each module
     if (!user) return;
     const ticketArray = await findAllTickets(user);
-    console.log(ticketArray);
+    // console.log(ticketArray);
     // TODO: restructure
     const newArr = [];
     ticketArray.map((arr) => arr.map((a) => newArr.push(a)));
