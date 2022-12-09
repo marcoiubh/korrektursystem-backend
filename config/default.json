@@ -2,6 +2,15 @@
   "database": "mongodb://localhost/kms",
   "jwtPrivateKey": "",
   "requiresAuthentication": true,
-  "testReceiverEmail": "marco.koll@iubh-fernstudium.de",
-  "testEmail": false
+  "email": {
+    "host": "smtp.office365.com",
+    "port": 587,
+    "secure": false,
+    "user": "marco.koll@iubh-fernstudium.de",
+    "rejectUnauthorized": false,
+    "student": "korrektursystem_student@mail.de",
+    "professor": "korrektursystem_professor@mail.de"
+  },
+  "testEmail": true,
+  "testReceiverEmail": "marco.koll@iubh-fernstudium.de"
 }

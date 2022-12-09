@@ -6,16 +6,16 @@ const config = require('config');
 const smtpConfig = () => {
   try {
     let transporter = nodemailer.createTransport({
-      host: 'smtp.office365.com',
-      port: 587,
-      secure: false,
+      host: config.get('email.host'),
+      port: config.get('email.port'),
+      secure: config.get('email.secure'),
       auth: {
-        user: 'marco.koll@iubh-fernstudium.de',
+        user: config.get('email.user'),
         pass: config.get('emailPrivateKey'), // get key from environment variable
       },
       // enable sending from local host
       tls: {
-        rejectUnauthorized: false,
+        rejectUnauthorized: config.get('email.rejectUnauthorized'),
       },
     });
     // TODO: does not throw error with wrong password!
@@ -25,19 +25,26 @@ const smtpConfig = () => {
   }
 };
 
-function sendEmail(to, subject, text) {
-  // email data
-  let mail = {
-    from: `"Ticketsystem" <${config.get('testReceiverEmail')}>`, // from ticketsystem
-    to: to, // to admin, but for testing purposes implemented in form
-    subject: subject,
-    text: text,
-  };
-  // send mail with defined transport object
-  let transporter = smtpConfig();
-  const response = transporter.sendMail(mail, (error, info) => {
-    //TODO: error handling
+const sendEmail = (to, subject, text) => {
+  return new Promise((resolve, reject) => {
+    // email data
+    let mail = {
+      from: `"Ticketsystem" <${config.get('email.user')}>`, // from ticketsystem
+      to: to, // to admin, but for testing purposes implemented in form
+      subject: subject,
+      text: text,
+    };
+    // send mail with defined transport object
+    let transporter = smtpConfig();
+    transporter
+      .sendMail(mail)
+      .then(() => {
+        resolve(true);
+      })
+      .catch((error) => {
+        reject(false);
+      });
   });
-}
+};
 
 module.exports = sendEmail;
