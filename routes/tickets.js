@@ -30,14 +30,15 @@ findAllTickets = async (user) => {
 
 // get all tickets based on role and email
 router.get('/', authentication, async (req, res) => {
+  const { role, email } = req.user;
   let ticket = {};
-  if (req.user.role === 'student') {
+  if (role === 'student') {
     // only tickets originating from this specific student
-    ticket = await Ticket.find({ student: req.user.email });
-  } else if (req.user.role === 'professor') {
+    ticket = await Ticket.find({ student: email });
+  } else if (role === 'professor') {
     // find supervised modules
     const user = await User.findOne({
-      email: req.user.email,
+      email: email,
     }).populate('modules');
     // find tickets for each module
     if (!user) return;
@@ -69,11 +70,13 @@ router.post('/', authentication, async (req, res) => {
   );
   await ticket.save();
   if (config.get('testEmail')) {
-    sendEmail(
-      config.get('testReceiverEmail'),
-      'New ticket',
-      JSON.stringify(ticket)
-    );
+    const emailText = `
+        ${ticket.student} has created a ticket.
+        –––––––––––––––––––––––––––––––––––––––
+        Module: ${ticket.module}
+        Message: ${ticket.comment}
+    `;
+    sendEmail(config.get('email.professor'), ticket.title, emailText);
   }
   res.json(ticket);
 });
@@ -93,11 +96,13 @@ router.put('/:id', [authentication], async (req, res) => {
     { new: true }
   );
   if (config.get('testEmail')) {
-    sendEmail(
-      config.get('testReceiverEmail'),
-      'Ticket updated',
-      JSON.stringify(ticket)
-    );
+    const emailText = `
+        Your ticket has been updated.
+        –––––––––––––––––––––––––––––––––––––––
+        Module: ${ticket.module}
+        Message: ${ticket.statement}
+    `;
+    sendEmail(config.get('email.student'), ticket.title, emailText);
   }
   res.json(ticket);
 });
