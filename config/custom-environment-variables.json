@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey": "kms_jwtPrivateKey"
+  "jwtPrivateKey": "kms_jwtPrivateKey",
+  "emailPrivateKey": "kms_emailPrivateKey"
 }
