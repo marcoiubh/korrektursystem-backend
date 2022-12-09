@@ -7,15 +7,6 @@ const express = require('express');
 const router = express.Router();
 
 // HELPER
-// const addUserToModule = function (courseId, user) {
-//   return Module.findByIdAndUpdate(
-//     courseId,
-//     { $push: { users: user._id } },
-//     { new: true, useFindAndModify: false }
-//   );
-// };
-
-// HELPER
 // get the user from the token
 // for security reasons use "me"
 router.get('/me', authorization, async (req, res) => {
@@ -30,16 +21,10 @@ router.get('/me', authorization, async (req, res) => {
   res.json(user);
 });
 
+
+
 // HELPER
-// router.post('/addModule', authorization, async (req, res) => {
-//   const user = await User.findOne({ email: req.user.email });
-//   console.log(JSON.stringify(user));
-//   const module = await addUserToModule(req.body.moduleId, user);
-//   res.json(module);
-// });
-
 // register a new user
-
 router.post('/', async (req, res) => {
   // validate that user is unique
   let user = await User.findOne({ email: req.body.email });
