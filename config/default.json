@@ -1,5 +1,7 @@
 {
   "database": "mongodb://localhost/kms",
   "jwtPrivateKey": "",
-  "requiresAuthentication": true
+  "requiresAuthentication": true,
+  "testReceiverEmail": "marco.koll@iubh-fernstudium.de",
+  "testEmail": false
 }

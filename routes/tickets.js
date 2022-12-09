@@ -5,6 +5,8 @@ const admin = require('../middleware/admin');
 const authentication = require('../middleware/authentication');
 const express = require('express');
 const router = express.Router();
+const sendEmail = require('../services/emailService');
+const config = require('config');
 
 // get ticket details
 router.get('/:id', authentication, async (req, res) => {
@@ -66,6 +68,13 @@ router.post('/', authentication, async (req, res) => {
     ])
   );
   await ticket.save();
+  if (config.get('testEmail')) {
+    sendEmail(
+      config.get('testReceiverEmail'),
+      'New ticket',
+      JSON.stringify(ticket)
+    );
+  }
   res.json(ticket);
 });
 
@@ -83,6 +92,13 @@ router.put('/:id', [authentication], async (req, res) => {
     ]),
     { new: true }
   );
+  if (config.get('testEmail')) {
+    sendEmail(
+      config.get('testReceiverEmail'),
+      'Ticket updated',
+      JSON.stringify(ticket)
+    );
+  }
   res.json(ticket);
 });
 
