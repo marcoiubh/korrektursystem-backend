@@ -2,7 +2,6 @@ const express = require('express');
 const sendEmail = require('../services/emailService');
 const router = express.Router();
 const config = require('config');
-const userDetails = require('../middleware/userDetails');
 const authentication = require('../middleware/authentication');
 
 const sendTo = (role) => {
