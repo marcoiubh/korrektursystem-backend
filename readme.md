@@ -22,7 +22,16 @@ heroku domains -a <appname>
 
 ### nodejs app
 
-> .env.production
+export kms_jwtPrivateKey='#'
+export kms_emailPrivateKey='#'
+
+heroku sets NODE_ENV to 'production' automatically
+/config/production.json must be set
+visual code picks default.json
+
+### react app
+
+> .env.production (in frontend)
 
 - REACT_APP_API_URL=https://korrektursystem-backend.herokuapp.com/
 - change heroku frontend config vars to this API_URL !!

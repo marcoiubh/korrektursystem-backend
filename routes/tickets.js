@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { Ticket } = require('../models/ticket');
 const { User } = require('../models/user');
-const admin = require('../middleware/admin');
+const Module = require('../models/module');
 const authentication = require('../middleware/authentication');
 const express = require('express');
 const router = express.Router();
@@ -106,11 +106,6 @@ router.put('/:id', [authentication], async (req, res) => {
     `;
     sendEmail(config.get('email.student'), ticket.title, emailText);
   }
-  res.json(ticket);
-});
-
-router.delete('/:id', async (req, res) => {
-  const ticket = await Ticket.deleteOne({ _id: req.params.id });
   res.json(ticket);
 });
 
