@@ -28,8 +28,8 @@ schema.methods.generateAuthToken = function () {
   // terminal: export kms_jwtPrivateKey=
   return jwt.sign(
     { email: this.email, role: this.role },
-    config.get('jwtPrivateKey')
-    // { expiresIn: '1h' }
+    config.get('jwtPrivateKey'),
+    { expiresIn: 60 }
   );
 };
 const User = mongoose.model('User', schema);

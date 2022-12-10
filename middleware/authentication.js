@@ -13,15 +13,25 @@ module.exports = function (req, res, next) {
     return res.status(401).send('Access denied. No token provided.');
 
   // validate token
+
   try {
-    const decodedPayload = jwt.verify(
+    jwt.verify(
       token,
-      config.get('jwtPrivateKey')
+      config.get('jwtPrivateKey'),
+      (err, decodedPayload) => {
+        if (err) {
+          throw new Error(err);
+        }
+        // returns the payload passed to token generator -> user._id, user.name etc.
+        else {
+          req.user = decodedPayload;
+          next();
+        }
+      }
     );
-    // returns the payload passed to token generator -> user._id, user.name etc.
-    req.user = decodedPayload;
-    next();
-  } catch (exception) {
-    res.status(400).send('Invalid token.');
+  } catch (err) {
+    if (err.message === 'TokenExpiredError: jwt expired') {
+      res.status(401).send('Expired token.');
+    } else res.status(400).send('Invalid token.');
   }
 };
