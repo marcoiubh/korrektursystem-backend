@@ -95,7 +95,9 @@ router.put('/:id', [authentication], async (req, res) => {
     ]),
     { new: true }
   );
-  if (config.get('testEmail')) {
+  // set email confirmation based on config
+  // avoid sending email when only read status has changed by checking statement
+  if (config.get('testEmail') && ticket.statement) {
     const emailText = `
         Your ticket has been updated.
         –––––––––––––––––––––––––––––––––––––––
