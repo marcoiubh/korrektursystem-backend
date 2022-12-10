@@ -3,14 +3,13 @@
   "jwtPrivateKey": "",
   "requiresAuthentication": true,
   "email": {
-    "host": "smtp.office365.com",
+    "host": "smtp.mail.de",
     "port": 587,
     "secure": false,
-    "user": "marco.koll@iubh-fernstudium.de",
     "rejectUnauthorized": false,
+    "server": "korrektursystem_server@mail.de",
     "student": "korrektursystem_student@mail.de",
     "professor": "korrektursystem_professor@mail.de"
   },
-  "testEmail": true,
-  "testReceiverEmail": "marco.koll@iubh-fernstudium.de"
+  "testEmail": true
 }

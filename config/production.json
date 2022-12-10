@@ -2,6 +2,14 @@
   "database": "mongodb+srv://vidly:1234@vidly.kiogyac.mongodb.net/kms",
   "jwtPrivateKey": "",
   "requiresAuthentication": true,
-  "testReceiverEmail": "marco.koll@iubh-fernstudium.de",
+  "email": {
+    "host": "smtp.mail.de",
+    "port": 587,
+    "secure": false,
+    "rejectUnauthorized": false,
+    "server": "korrektursystem_server@mail.de",
+    "student": "korrektursystem_student@mail.de",
+    "professor": "korrektursystem_professor@mail.de"
+  },
   "testEmail": true
 }

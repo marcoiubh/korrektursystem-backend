@@ -10,7 +10,7 @@ const smtpConfig = () => {
       port: config.get('email.port'),
       secure: config.get('email.secure'),
       auth: {
-        user: config.get('email.user'),
+        user: config.get('email.server'),
         pass: config.get('emailPrivateKey'), // get key from environment variable
       },
       // enable sending from local host
@@ -29,7 +29,7 @@ const sendEmail = (to, subject, text) => {
   return new Promise((resolve, reject) => {
     // email data
     let mail = {
-      from: `"Ticketsystem" <${config.get('email.user')}>`, // from ticketsystem
+      from: `"Ticketsystem" <${config.get('email.server')}>`, // from ticketsystem
       to: to, // to admin, but for testing purposes implemented in form
       subject: subject,
       text: text,
