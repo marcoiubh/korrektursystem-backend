@@ -29,7 +29,7 @@ schema.methods.generateAuthToken = function () {
   return jwt.sign(
     { email: this.email, role: this.role },
     config.get('jwtPrivateKey'),
-    { expiresIn: 60 }
+    { expiresIn: '30m' }
   );
 };
 const User = mongoose.model('User', schema);
