@@ -4,6 +4,7 @@ module.exports = function (app) {
     cors({
       origin: [
         'https://www.korrektursystem.live',
+        'https://korrektursystem.live',
         'http://localhost:3000',
       ],
     })
