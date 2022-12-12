@@ -1,7 +1,6 @@
 {
   "database": "mongodb+srv://vidly:1234@vidly.kiogyac.mongodb.net/kms",
   "jwtPrivateKey": "",
-  "requiresAuthentication": true,
   "email": {
     "host": "smtp.mail.de",
     "port": 587,
