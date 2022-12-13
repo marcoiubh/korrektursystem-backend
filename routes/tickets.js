@@ -6,11 +6,16 @@ const getTicketsByRole = require('../middleware/getTicketsByRole');
 const saveTicket = require('../middleware/saveTicket');
 const updateTicket = require('../middleware/updateTicket');
 const sendConfirmation = require('../middleware/sendConfirmation');
+const getUserByEmail = require('../middleware/getUserByEmail');
 
 // get all tickets based on role and email
-router.get('/', [authentication, getTicketsByRole], (req, res) => {
-  res.json(req.ticket);
+router.get('/', authentication, getUserByEmail, (req, res) => {
+  req.body.name = 'ticket01';
+  res.json(req.body);
 });
+// router.get('/', [authentication, getTicketsByRole], (req, res) => {
+//   res.json(req.ticket);
+// });
 
 // create a ticket
 router.post(
