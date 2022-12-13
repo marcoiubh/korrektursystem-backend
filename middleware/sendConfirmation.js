@@ -12,7 +12,15 @@ module.exports.ticketCreated = async function (req, res, next) {
       Title: ${title}
       Message: ${comment}
   `;
-    sendEmail(config.get('email.professor'), title, emailText);
+    try {
+      await sendEmail(
+        config.get('email.professor'),
+        title,
+        emailText
+      );
+    } catch (error) {
+      console.log('Mail could not be sent.', error);
+    }
   }
   next();
 };
@@ -29,7 +37,11 @@ module.exports.ticketUpdated = async function (req, res, next) {
         Title: ${title}
         Message: ${statement}
     `;
-    sendEmail(config.get('email.student'), title, emailText);
+    try {
+      await sendEmail(config.get('email.student'), title, emailText);
+    } catch (error) {
+      console.log('Mail could not be sent.', error);
+    }
   }
   next();
 };
@@ -48,6 +60,10 @@ module.exports.issueCreated = async function (req, res, next) {
     ${description}
   `;
 
-  await sendEmail(config.get('email.server'), issue, emailText);
+  try {
+    await sendEmail(config.get('email.server'), issue, emailText);
+  } catch (error) {
+    console.log('Mail could not be sent.', error);
+  }
   next();
 };

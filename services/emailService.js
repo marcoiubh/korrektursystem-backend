@@ -39,9 +39,11 @@ const sendEmail = (to, subject, text) => {
     transporter
       .sendMail(mail)
       .then(() => {
+        console.log('Email sent successfully');
         resolve(true);
       })
       .catch((error) => {
+        console.error('Email not sending', error);
         reject(false);
       });
   });
