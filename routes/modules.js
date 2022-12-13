@@ -82,3 +82,4 @@ const getModuleWithPopulate = function (id) {
 // });
 
 module.exports = router;
+module.exports = addModuleToUser;

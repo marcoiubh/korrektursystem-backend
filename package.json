@@ -1,39 +1,46 @@
 {
-"name":"kms-backend",
-"version":"1.0.0",
-"description":"",
-"main":"index.js",
-"engines": {
-    "node": "18.x"},
-"scripts":
-{"start": 
-"node index.js", 
-"test":"jest"
-},
-"jest": {
-    "roots": [
-      "<rootDir>",
-      "/home/leon/node_modules/resolve/test/resolver/other_path"
-    ],
-    "modulePaths": [
-      "<rootDir>",
-      "/home/leon/node_modules/resolve/test/resolver/other_path"
-    ],
-    "moduleDirectories": [
-    "node_modules",
-    "src"
-    ]
+  "transform": {
+    "\\.js$": "/home/leon/node_modules/babel-jest"
+  },  
+  "type": "module",  
+  "name":"kms-backend",
+  "version":"1.0.0",
+  "description":"",
+  "main":"index.js",
+  "engines": {
+      "node": "18.x"
+    },
+  "presets": ["@babel/react", "@babel/env"],
+  "scripts":
+  {"start": 
+  "node index.js", 
+  "test":"jest"
   },
-"keywords":[],
-"author":"",
-"license":"ISC",
-"dependencies":
-{"bcrypt":"^5.1.0",
-"config":"^3.3.8",
-"cors":"^2.8.5",
-"express":"^4.18.2",
-"gh-pages":"^4.0.0",
-"jsonwebtoken":"^8.5.1",
-"lodash":"^4.17.21",
-"mongoose":"^6.7.1"}
+  "jest": {
+      "roots": [
+        "<rootDir>",
+        "/home/leon/node_modules/resolve/test/resolver/other_path"
+      ],
+      "modulePaths": [
+        "<rootDir>",
+        "/home/leon/node_modules/resolve/test/resolver/other_path"
+      ],
+      "moduleDirectories": [
+      "node_modules",
+      "src"
+      ]
+    },
+  "keywords":[],
+  "author":"",
+  "license":"ISC",
+  "dependencies":{
+    "bcrypt":"^5.1.0",
+    "config":"^3.3.8",
+    "cors":"^2.8.5",
+    "express":"^4.18.2",
+    "gh-pages":"^4.0.0",
+    "jsonwebtoken":"^8.5.1",
+    "lodash":"^4.17.21",
+    "mongoose":"^6.7.1"
+  }
 }
