@@ -1,19 +1,6 @@
 const { Ticket } = require('../models/ticket');
 const { User } = require('../models/user');
 
-module.exports = async function (req, res, next) {
-  const { role, email } = req.user;
-  let ticket = {};
-
-  if (role === 'student') {
-    ticket = await findTicketsOfStudent(email);
-  } else if (role === 'professor') {
-    ticket = await findTicketsOfProfessor(email);
-  }
-  req.ticket = ticket;
-  next();
-};
-
 findTicketsOfStudent = async (email) => {
   // only tickets originating from this specific student
   return await Ticket.find({ student: email });
@@ -46,4 +33,17 @@ findAllTickets = async (user) => {
       return await findByModule(module);
     })
   );
+};
+
+module.exports = async function (req, res, next) {
+  const { role, email } = req.user;
+  let ticket = {};
+
+  if (role === 'student') {
+    ticket = await findTicketsOfStudent(email);
+  } else if (role === 'professor') {
+    ticket = await findTicketsOfProfessor(email);
+  }
+  req.ticket = ticket;
+  next();
 };

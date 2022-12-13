@@ -11,6 +11,7 @@ module.exports = async function (req, res, next) {
       'status',
       'readStudent',
       'readProfessor',
+      'history',
     ]),
     { new: true }
   );

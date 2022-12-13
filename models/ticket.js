@@ -15,6 +15,7 @@ const schema = new mongoose.Schema(
     type: String,
     readStudent: Boolean,
     readProfessor: Boolean,
+    history: Array,
   },
   { versionKey: false }
 );

@@ -9,11 +9,13 @@ module.exports = async function (req, res, next) {
       'module',
       'priority',
       'source',
+      'status',
       'student',
       'title',
       'type',
       'readProfessor',
       'readStudent',
+      'history',
     ])
   );
   await ticket.save();
