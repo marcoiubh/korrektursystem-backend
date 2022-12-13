@@ -3,7 +3,11 @@ const checkPrivateKeys = require('./services/checkPrivateKeys');
 const app = express();
 
 // make sure environment variable is set or quit
-checkPrivateKeys();
+try {
+  checkPrivateKeys();
+} catch (error) {
+  console.log(error.message);
+}
 
 require('./startup/cors')(app);
 require('./startup/database')();

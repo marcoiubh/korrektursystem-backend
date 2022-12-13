@@ -1,15 +1,17 @@
 const config = require('config');
+
 const checkPrivateKeys = () => {
-  if (!config.get('jwtPrivateKey')) {
-    console.error('FATAL ERROR: JWT private key not defined');
-    process.exit(1);
-  }
-  if (!config.get('emailPrivateKey')) {
-    console.error(
-      'FATAL ERROR: email server private key not defined'
+  if (!process.env.kms_jwtPrivateKey) {
+    throw new Error(
+      'FATAL ERROR: no private key provided to decode token'
     );
-    process.exit(1);
   }
+  if (!process.env.kms_emailPrivateKey) {
+    throw new Error(
+      'FATAL ERROR: no private key to access email server provided.'
+    );
+  }
+  return true;
 };
 
 module.exports = checkPrivateKeys;
