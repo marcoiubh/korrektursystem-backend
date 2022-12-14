@@ -48,5 +48,5 @@ describe('getTicketsByRole', () => {
 
 after(async () => {
   await mongoose.disconnect();
-  server.close();
+  // server.close();
 });
