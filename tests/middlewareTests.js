@@ -1,4 +1,6 @@
 const httpMocks = require('node-mocks-http'); // mocks req or res objects
+const expect = require('chai').expect;
+
 beforeEach((done) => {
   const req = httpMocks.createRequest(),
     res = httpMocks.createResponse();

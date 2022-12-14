@@ -1,5 +1,6 @@
 const config = require('config');
 const proxyquire = require('proxyquire').noPreserveCache();
+const expect = require('chai').expect;
 
 describe('checkPrivateKeys', () => {
   it('should fail if environment variable for jwtPrivateKey is not set', () => {
@@ -9,7 +10,7 @@ describe('checkPrivateKeys', () => {
       '../services/checkPrivateKeys',
       {}
     );
-    expect(() => checkPrivateKeys()).toThrow();
+    expect(() => checkPrivateKeys()).to.throw();
   });
   it('should fail if environment variable for emailPrivateKey is not set', () => {
     process.env.kms_jwtPrivateKey = 'test';
@@ -18,7 +19,7 @@ describe('checkPrivateKeys', () => {
       '../services/checkPrivateKeys',
       {}
     );
-    expect(() => checkPrivateKeys()).toThrow();
+    expect(() => checkPrivateKeys()).to.throw();
   });
   it('should pass if environment variables are both set', () => {
     process.env.kms_jwtPrivateKey = 'test';
@@ -27,7 +28,7 @@ describe('checkPrivateKeys', () => {
       '../services/checkPrivateKeys',
       {}
     );
-    expect(checkPrivateKeys()).toBe(true);
+    expect(checkPrivateKeys()).to.equal(true);
   });
 
   beforeEach(() => {
