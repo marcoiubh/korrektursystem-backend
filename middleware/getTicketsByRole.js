@@ -40,10 +40,18 @@ module.exports = async function (req, res, next) {
   let ticket = {};
 
   if (role === 'student') {
-    ticket = await findTicketsOfStudent(email);
+    findTicketsOfStudent(email)
+      .then((ticket) => {
+        req.ticket = ticket;
+        next();
+      })
+      .catch('error');
   } else if (role === 'professor') {
-    ticket = await findTicketsOfProfessor(email);
+    findTicketsOfProfessor(email)
+      .then((ticket) => {
+        req.ticket = ticket;
+        next();
+      })
+      .catch('error');
   }
-  req.ticket = ticket;
-  next();
 };
