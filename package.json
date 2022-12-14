@@ -7,7 +7,8 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "NODE_ENV=test mocha ./tests/*.test.js && nodemon index.js",
+    "start": "node index.js",
+    "start-all": "NODE_ENV=test mocha ./tests/*.test.js --bail --watch  && nodemon index.js",
     "test": "NODE_ENV=test mocha ./tests/*.test.js",
     "test-silent": "jest --silent --runInBand --watchAll "
   },
