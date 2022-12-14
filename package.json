@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "start-all": "NODE_ENV=test mocha ./tests/*.test.js --bail --watch  && nodemon index.js",
+    "dev": "NODE_ENV=test mocha ./tests/*.test.js --bail --watch  && nodemon index.js",
     "test": "NODE_ENV=test mocha ./tests/*.test.js",
     "test-silent": "jest --silent --runInBand --watchAll "
   },
