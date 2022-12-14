@@ -51,19 +51,21 @@ module.exports.issueCreated = async function (req, res, next) {
   // get user details from authentication middleware
   const { email } = req.user;
   // set email content
-  const emailText = `
-    An issue has been reported by ${email}.
-    ––––––––––––––––––––––––––––––
-    Issue: ${issue}
-    Description: 
-    
-    ${description}
-  `;
+  if (config.get('testEmail')) {
+    const emailText = `
+  An issue has been reported by ${email}.
+  ––––––––––––––––––––––––––––––
+  Issue: ${issue}
+  Description: 
+  
+  ${description}
+`;
 
-  try {
-    await sendEmail(config.get('email.server'), issue, emailText);
-  } catch (error) {
-    console.log('Mail could not be sent.', error);
+    try {
+      await sendEmail(config.get('email.server'), issue, emailText);
+    } catch (error) {
+      console.log('Mail could not be sent.', error);
+    }
   }
   next();
 };
