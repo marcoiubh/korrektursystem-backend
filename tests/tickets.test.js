@@ -37,7 +37,7 @@ describe('/tickets', () => {
         .get('/tickets')
         .set('x-auth-token', token)
         .then((res) => {
-          expect(res.body.some(({ _id }) => _id)).to.equal(true);
+          expect(res.body.some(({ _id }) => _id)).to.be.true;
         })
         .catch((err) => {
           throw err;

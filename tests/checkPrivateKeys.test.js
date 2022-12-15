@@ -28,7 +28,7 @@ describe('checkPrivateKeys', () => {
       '../services/checkPrivateKeys',
       {}
     );
-    expect(checkPrivateKeys()).to.equal(true);
+    expect(checkPrivateKeys()).to.be.true;
   });
 
   beforeEach(() => {
