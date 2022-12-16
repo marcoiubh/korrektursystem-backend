@@ -6,16 +6,17 @@ getTokenFromHeader = (req, res) => {
   try {
     const token = req.header('x-auth-token');
     if (!token) throw 'exit';
-    return token;
+    req.token = token;
   } catch (error) {
     res.status(401).send('Access denied. No token provided.');
+    throw 401;
   }
 };
 
-validateToken = (token, res, req, next) => {
+validateToken = (req, res, next) => {
   try {
     jwt.verify(
-      token,
+      req.token,
       config.get('jwtPrivateKey'),
       (err, decodedPayload) => {
         if (err) throw new Error(err);
@@ -33,7 +34,13 @@ validateToken = (token, res, req, next) => {
   }
 };
 
-module.exports = function (req, res, next) {
-  const token = getTokenFromHeader(req, res);
-  validateToken(token, res, req, next);
+authentication = (req, res, next) => {
+  getTokenFromHeader(req, res);
+  validateToken(req, res, next);
+};
+
+module.exports = {
+  authentication,
+  getTokenFromHeader,
+  validateToken,
 };

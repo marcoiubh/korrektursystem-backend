@@ -1,5 +1,5 @@
 const sinon = require('sinon');
-const getUserByEmail = require('../middleware/getUserByEmail');
+const getUserByEmail = require('../../middleware/getUserByEmail');
 const httpMocks = require('node-mocks-http');
 const { default: mongoose } = require('mongoose');
 const { expect } = require('chai');
