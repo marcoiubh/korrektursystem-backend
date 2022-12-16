@@ -28,9 +28,11 @@ validateToken = (req, res, next) => {
   } catch (err) {
     if (err.message === 'TokenExpiredError: jwt expired') {
       res.status(401).send('Token expired.');
-    } else if (err.message === 'JsonWebTokenError: invalid signature')
-      res.status(400).send('Invalid email or password.');
-    else debug(err.message);
+    } else {
+      debug(err.message);
+      res.status(400).send(err.message);
+    }
+    throw 400;
   }
 };
 
