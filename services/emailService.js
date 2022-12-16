@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const _ = require('lodash');
 const config = require('config');
+const debug = require('debug')('error');
 
 // SMTP
 const smtpConfig = () => {
@@ -39,11 +40,11 @@ const sendEmail = (to, subject, text) => {
     transporter
       .sendMail(mail)
       .then(() => {
-        console.log('Email sent successfully');
+        debug('Email sent successfully');
         resolve(true);
       })
       .catch((error) => {
-        console.error('Email not sending', error);
+        debug('Email not sending', error);
         reject(false);
       });
   });

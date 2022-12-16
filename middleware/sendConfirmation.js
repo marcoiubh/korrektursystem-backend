@@ -1,6 +1,7 @@
 const { Ticket } = require('../models/ticket');
 const config = require('config');
 const sendEmail = require('../services/emailService');
+const debug = require('debug')('error');
 
 module.exports.ticketCreated = async function (req, res, next) {
   const { student, module, comment, title } = req.ticket;
@@ -19,7 +20,7 @@ module.exports.ticketCreated = async function (req, res, next) {
         emailText
       );
     } catch (error) {
-      console.log('Mail could not be sent.', error);
+      debug('Mail could not be sent.', error);
     }
   }
   next();
@@ -40,7 +41,7 @@ module.exports.ticketUpdated = async function (req, res, next) {
     try {
       await sendEmail(config.get('email.student'), title, emailText);
     } catch (error) {
-      console.log('Mail could not be sent.', error);
+      debug('Mail could not be sent.', error);
     }
   }
   next();
@@ -64,7 +65,7 @@ module.exports.issueCreated = async function (req, res, next) {
     try {
       await sendEmail(config.get('email.server'), issue, emailText);
     } catch (error) {
-      console.log('Mail could not be sent.', error);
+      debug('Mail could not be sent.', error);
     }
   }
   next();

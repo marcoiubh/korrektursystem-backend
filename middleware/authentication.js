@@ -1,5 +1,6 @@
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const debug = require('debug')('error');
 
 getTokenFromHeader = (req, res) => {
   try {
@@ -28,7 +29,7 @@ validateToken = (token, res, req, next) => {
       res.status(401).send('Token expired.');
     } else if (err.message === 'JsonWebTokenError: invalid signature')
       res.status(400).send('Invalid email or password.');
-    else console.log(err.message);
+    else debug(err.message);
   }
 };
 

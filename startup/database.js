@@ -1,5 +1,6 @@
 const config = require('config');
 const mongoose = require('mongoose');
+const debug = require('debug')('db');
 
 mongoose.set('strictQuery', false);
 
@@ -8,8 +9,8 @@ module.exports = function () {
   const database = config.get('database');
   mongoose
     .connect(database)
-    .then(() => console.log(`connected to ${database}`))
+    .then(() => debug(`connected to ${database}`))
     .catch((error) =>
-      console.error(`connection to ${database} failed`, error)
+      debug(`connection to ${database} failed`, error)
     );
 };
