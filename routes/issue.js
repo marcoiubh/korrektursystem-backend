@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const authentication = require('../middleware/authentication');
+const { authentication } = require('../middleware/authentication');
 const sendConfirmation = require('../middleware/sendConfirmation');
 
 router.post(
