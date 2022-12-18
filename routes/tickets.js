@@ -2,7 +2,7 @@ const Module = require('../models/module');
 const { authentication } = require('../middleware/authentication');
 const express = require('express');
 const router = express.Router();
-const getTicketsByRole = require('../middleware/getTicketsByRole');
+const { getTickets } = require('../middleware/getTicketsByRole');
 const saveTicket = require('../middleware/saveTicket');
 const updateTicket = require('../middleware/updateTicket');
 const sendConfirmation = require('../middleware/sendConfirmation');
@@ -11,7 +11,7 @@ const sendConfirmation = require('../middleware/sendConfirmation');
 router.use(authentication);
 
 // get all tickets based on role and email
-router.get('/', [getTicketsByRole], (req, res) => {
+router.get('/', [getTickets], (req, res) => {
   res.json(req.ticket);
 });
 

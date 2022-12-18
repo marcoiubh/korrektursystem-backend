@@ -1,5 +1,5 @@
 const sinon = require('sinon');
-const updateTicket = require('../middleware/updateTicket');
+const updateTicket = require('../../middleware/updateTicket');
 const httpMocks = require('node-mocks-http');
 const { default: mongoose } = require('mongoose');
 const { expect } = require('chai');

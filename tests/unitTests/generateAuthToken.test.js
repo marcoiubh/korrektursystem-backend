@@ -39,8 +39,6 @@ describe('generateAuthToken', () => {
         /^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9/
       );
     });
-
-    it.skip('should have an expiration date', async () => {});
   });
 
   describe('when user details are missing', () => {
@@ -52,18 +50,8 @@ describe('generateAuthToken', () => {
 
     afterEach(() => {});
 
-    it.skip('should throw an error', async () => {
-      // expect(function () {
-      //   throwError(true);
-      // }).to.throw('error');
+    it('should throw an error', async () => {
+      expect(() => generateAuthToken(req, res, next)).to.throw();
     });
   });
 });
-
-// throwError = (val) => {
-//   try {
-//     if (val === true) throw new Error();
-//   } catch (error) {
-//     console.log('error');
-//   }
-// };
