@@ -16,4 +16,8 @@ const Module = mongoose.model(
   )
 );
 
+// this is for mocha testing where we need to reload the model
+// if (mongoose.models.Module) {
+//   delete mongoose.models.Module;
+// }
 module.exports = Module;

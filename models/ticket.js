@@ -22,4 +22,9 @@ const schema = new mongoose.Schema(
 
 const Ticket = mongoose.model('Ticket', schema);
 
-module.exports.Ticket = Ticket;
+// this is for mocha testing where we need to reload the model
+if (mongoose.models.Ticket) {
+  delete mongoose.models.Ticket;
+
+  module.exports.Ticket = Ticket;
+}

@@ -1,18 +1,28 @@
+const { Ticket } = require('../models/ticket');
+const { User } = require('../models/user');
+
 let find = {
   ticketsOfStudent: async (email) => {
-    //  return ticket
+    // only tickets originating from this specific student
+    return await Ticket.find({ student: email });
   },
 
   emailToUser: async (email) => {
     // user1 -> module1, module2
     // user2 -> module3
     // return user with modules
+    // find supervised modules
+    const user = await User.findOne({
+      email: email,
+    }).populate('modules');
   },
 
   byModule: async (module) => {
     // module1 = [ticket1]
     // module2 = [ticket2]
     // module3 = [ticket3]
+    return await Ticket.find({ module: module.title });
+
     // return tickets
   },
   allTickets: async (user) => {
@@ -31,12 +41,12 @@ let find = {
     // find tickets for each module
     if (!user) return;
     const ticketArray = await find.allTickets(user);
-    return ticketArray;
+    // return ticketArray;
 
     // TODO: restructure
-    // const newArr = [];
-    // ticketArray.map((arr) => arr.map((a) => newArr.push(a)));
-    // return newArr;
+    const newArr = [];
+    ticketArray.map((arr) => arr.map((a) => newArr.push(a)));
+    return newArr;
     // return user
     // findAllTickets(user)
     // return tickets
@@ -45,18 +55,16 @@ let find = {
 
 getTickets = async (req, res, next) => {
   const { role, email } = req.user;
-  let tickets = {};
+  let ticket = {};
 
-  try {
-    if (role === 'student') {
-      tickets = await find.ticketsOfStudent(email);
-    } else if (role === 'professor')
-      tickets = await find.ticketsOfProfessor(email);
-    else throw 'invalid role';
-    return tickets;
-  } catch (error) {
-    throw error;
+  if (role === 'student') {
+    ticket = await find.ticketsOfStudent(email);
+  } else if (role === 'professor') {
+    ticket = await find.ticketsOfProfessor(email);
+    // debug('ticket', ticket);
   }
+  req.ticket = ticket;
+  next();
 };
 
 module.exports = {
