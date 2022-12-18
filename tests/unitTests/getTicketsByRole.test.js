@@ -63,7 +63,7 @@ describe('find tickets of users', () => {
       'ticketsOfStudent'
     );
     stubTicketsOfStudent
-      .withArgs(loginStudent)
+      .withArgs(loginStudent.email)
       .returns([ticket1, ticket3]);
 
     stubByModule = sandbox.stub(ticketsByMail.find, 'byModule');
@@ -117,17 +117,17 @@ describe('find tickets of users', () => {
           .false;
       });
     });
-    describe.skip('if user has no valid role', () => {
+    describe('if user has no valid role', () => {
       it('should throw "invalid role"', () => {
-        expect(
-          async () => await ticketsByMail.getTickets(req, res, next)
-        ).to.throw();
+        ticketsByMail
+          .getTickets(req, res, next)
+          .then((result) => expect(result).to.throw());
       });
     });
   });
 
   describe('utility functions', () => {
-    describe.skip('ticketsOfStudent - if the student has tickets associated with his email', () => {
+    describe('ticketsOfStudent - if the student has tickets associated with his email', () => {
       it('should return these tickets', async () => {
         expect(
           await ticketsByMail.find.ticketsOfStudent(
