@@ -1,7 +1,7 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
-const app = require('../index');
-const server = require('../startup/startServer');
+const app = require('../../index');
+const server = require('../../startup/startServer');
 const expect = require('chai').expect;
 
 describe('/', () => {

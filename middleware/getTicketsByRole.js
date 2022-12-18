@@ -1,5 +1,6 @@
 const { Ticket } = require('../models/ticket');
 const { User } = require('../models/user');
+const debug = require('debug')('info');
 
 findTicketsOfStudent = async (email) => {
   // only tickets originating from this specific student
@@ -8,9 +9,7 @@ findTicketsOfStudent = async (email) => {
 
 findTicketsOfProfessor = async (email) => {
   // find supervised modules
-  const user = await User.findOne({
-    email: email,
-  }).populate('modules');
+  const user = await findWithModulesPopulated(email);
   // find tickets for each module
   if (!user) return;
   const ticketArray = await findAllTickets(user);
@@ -19,6 +18,12 @@ findTicketsOfProfessor = async (email) => {
   const newArr = [];
   ticketArray.map((arr) => arr.map((a) => newArr.push(a)));
   return newArr;
+};
+
+findWithModulesPopulated = async (email) => {
+  return await User.findOne({
+    email: email,
+  }).populate('modules');
 };
 
 findByModule = async (module) => {
@@ -35,23 +40,25 @@ findAllTickets = async (user) => {
   );
 };
 
-module.exports = async function (req, res, next) {
+getTicketsByMail = async (req, res, next) => {
   const { role, email } = req.user;
   let ticket = {};
 
   if (role === 'student') {
-    findTicketsOfStudent(email)
-      .then((ticket) => {
-        req.ticket = ticket;
-        next();
-      })
-      .catch('error');
+    ticket = await findTicketsOfStudent(email);
   } else if (role === 'professor') {
-    findTicketsOfProfessor(email)
-      .then((ticket) => {
-        req.ticket = ticket;
-        next();
-      })
-      .catch('error');
+    ticket = await findTicketsOfProfessor(email);
+    // debug('ticket', ticket);
   }
+  req.ticket = ticket;
+  next();
+};
+
+module.exports = {
+  findWithModulesPopulated,
+  findAllTickets,
+  findTicketsOfProfessor,
+  findTicketsOfStudent,
+  getTicketsByMail,
+  findByModule,
 };

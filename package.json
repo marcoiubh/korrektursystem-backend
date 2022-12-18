@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "NODE_ENV=test mocha ./tests/unitTests/authentication.test.js"
+    "test": "NODE_ENV=test mocha ./tests/unitTests/getTicketsByRole.test.js"
   },
   "keywords": [],
   "author": "",

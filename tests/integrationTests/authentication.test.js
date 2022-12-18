@@ -10,60 +10,38 @@ chai.use(chaiHttp);
 
 describe('/authentication', () => {
   it('should return 400 "Bad Request" without login credentials', async () => {
-    await request(app)
-      .post('/authentication')
-      .then((res) => {
-        expect(res).to.have.status(400);
-      })
-      .catch((err) => {
-        throw err;
-      });
+    const result = await request(app).post('/authentication');
+
+    expect(result).to.have.status(400);
   });
   it('should return 400 "Bad Request" without valid email', async () => {
-    await request(app)
+    const result = await request(app)
       .post('/authentication')
-      .send({ email: 'wrong', password: 'correct' })
-      .then((res) => {
-        expect(res).to.have.status(400);
-      })
-      .catch((err) => {
-        throw err;
-      });
+      .send({ email: 'wrong', password: 'correct' });
+
+    expect(result).to.have.status(400);
   });
   it('should return 400 "Bad Request" without valid password', async () => {
-    await request(app)
+    const result = await request(app)
       .post('/authentication')
-      .send({ email: 'correct', password: 'wrong' })
-      .then((res) => {
-        expect(res).to.have.status(400);
-      })
-      .catch((err) => {
-        throw err;
-      });
+      .send({ email: 'correct', password: 'wrong' });
+
+    expect(result).to.have.status(400);
   });
   it('should return 200 "OK" with valid credentials', async () => {
-    await request(app)
+    const result = await request(app)
       .post('/authentication')
-      .send({ email: 'correct', password: 'correct' })
-      .then((res) => {
-        expect(res).to.have.status(200);
-      })
-      .catch((err) => {
-        throw err;
-      });
+      .send({ email: 'student_a@iubh.de', password: 'student_a' });
+    expect(result).to.have.status(200);
   });
   it('should return a token starting with eyJh...', async () => {
-    await request(app)
+    const result = await request(app)
       .post('/authentication')
-      .send({ email: 'correct', password: 'correct' })
-      .then((res) => {
-        expect(res.body).to.match(
-          /^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9?/
-        );
-      })
-      .catch((err) => {
-        throw err;
-      });
+      .send({ email: 'student_a@iubh.de', password: 'student_a' });
+
+    expect(result.body).to.match(
+      /^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9?/
+    );
   });
 });
 

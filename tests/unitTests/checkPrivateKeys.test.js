@@ -7,7 +7,7 @@ describe('checkPrivateKeys', () => {
     process.env.kms_jwtPrivateKey = '';
     process.env.kms_emailPrivateKey = 'test';
     const checkPrivateKeys = proxyquire(
-      '../services/checkPrivateKeys',
+      '../../services/checkPrivateKeys',
       {}
     );
     expect(() => checkPrivateKeys()).to.throw();
@@ -16,7 +16,7 @@ describe('checkPrivateKeys', () => {
     process.env.kms_jwtPrivateKey = 'test';
     process.env.kms_emailPrivateKey = '';
     const checkPrivateKeys = proxyquire(
-      '../services/checkPrivateKeys',
+      '../../services/checkPrivateKeys',
       {}
     );
     expect(() => checkPrivateKeys()).to.throw();
@@ -25,7 +25,7 @@ describe('checkPrivateKeys', () => {
     process.env.kms_jwtPrivateKey = 'test';
     process.env.kms_emailPrivateKey = 'test';
     const checkPrivateKeys = proxyquire(
-      '../services/checkPrivateKeys',
+      '../../services/checkPrivateKeys',
       {}
     );
     expect(checkPrivateKeys()).to.be.true;

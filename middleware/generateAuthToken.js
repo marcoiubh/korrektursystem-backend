@@ -22,6 +22,7 @@ generateAuthToken = function (req, res, next) {
     next();
   } catch (error) {
     console.log('User details or Private Key required.');
+    throw 'User details or Private Key required.';
   }
 };
 
