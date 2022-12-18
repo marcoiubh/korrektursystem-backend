@@ -1,141 +1,206 @@
 const sinon = require('sinon');
-const getTicketsByRole = require('../../middleware/getTicketsByRole');
+const expect = require('chai').expect;
 const httpMocks = require('node-mocks-http');
-const mongoose = require('mongoose');
-const { expect } = require('chai');
 
-function testStudentObject() {
-  return {
-    user: { email: 'test', role: 'student', modules: ['A', 'B'] },
-  };
-}
-function testProfessorObject() {
-  return {
-    user: { email: 'test', role: 'professor', modules: ['A', 'B'] },
-  };
-}
+// import module
+const ticketsByMail = require('../../middleware/getTicketsByRole');
 
-function userWithPopulatedModules() {
-  return {
-    _id: new ObjectId('63760a4b08edfccf49df9270'),
-    email: 'professor_a@iubh.de',
-    password:
-      '$2b$10$2hytUSbU36gzt8fYpVO8PeP8lclMdOBnLMe7ZwFtZDKEsPlmml23q',
-    role: 'professor',
-    modules: [
-      {
-        _id: new ObjectId('6376ae9a78ec5f732de5e89e'),
-        title: 'BSTA01-01',
-        users: [Array],
-        __v: 0,
-      },
-      {
-        _id: new ObjectId('6376b0d23ef6cb9aaa4de810'),
-        title: 'IOBP02',
-        users: [Array],
-        __v: 0,
-      },
-      {
-        _id: new ObjectId('63777c3ce0c1e049f8e2f337'),
-        title: 'IGIS01',
-        users: [Array],
-        __v: 0,
-      },
-    ],
-  };
-}
-
-function ticketArray() {
-  return [
-    [
-      {
-        _id: new ObjectId('639863a90faa1b48a59a1a2d'),
-        comment: 'dsfdsf',
-        date: '2022-12-15T09:34:02.276Z',
-        module: 'BSTA01-01',
-        source: 'Vodcast',
-        status: 'Closed',
-        student: 'student_a@iubh.de',
-        title: 'sfsdf',
-        type: 'Error',
-        readStudent: true,
-        readProfessor: true,
-        history: [Array],
-        priority: 'Major',
-        statement: 'Statement 01',
-      },
-      {
-        _id: new ObjectId('639b12735381f4611c213ea7'),
-        comment: 'sdfdfsfdf',
-        date: '2022-12-15T12:26:27.008Z',
-        module: 'IOBP02',
-        source: 'Vodcast',
-        status: 'New',
-        student: 'student_a@iubh.de',
-        title: 'sfsddfsdf',
-        type: 'Proposal',
-        readStudent: true,
-        readProfessor: false,
-        history: [Array],
-      },
-    ],
-    [],
-  ];
-}
-
-function testTicketObject() {
-  return { title: 'testTicket' };
-}
-
-describe('getTicketsByRole', () => {
-  let stub;
+describe('find tickets of users', () => {
   let req;
   let res;
   let next;
 
-  describe('findTicketsOfStudent', () => {
+  let stubByModule;
+  let spyProfessor;
+  let spyStudent;
+
+  // information based on login token
+  let loginProfessor1 = { email: 'user1', role: 'professor' };
+  let loginProfessor2 = { email: 'user2', role: 'professor' };
+  let loginStudent = { email: 'user3', role: 'student' };
+  let invalidRole = { email: 'user4', role: 'invalid' };
+
+  // user information based on database
+  let professorWithModules1 = {
+    email: 'user1',
+    modules: [{ title: 'module1' }, { title: 'module2' }],
+  };
+  let professorWithModules2 = {
+    email: 'user2',
+    modules: [{ title: 'module3' }],
+  };
+
+  // ticket information based on database
+  let ticket1 = {
+    title: 'ticketUser3',
+    module: 'module1',
+    student: 'user3',
+  };
+  let ticket2 = {
+    title: 'ticketUser4',
+    module: 'module2',
+    student: 'user4',
+  };
+  let ticket3 = {
+    title: 'ticketUser3',
+    module: 'module3',
+    student: 'user3',
+  };
+
+  describe('getTickets', () => {
     beforeEach(() => {
-      stub = sinon.stub(mongoose.Model, 'find');
-      req = httpMocks.createRequest(testStudentObject());
+      req = httpMocks.createRequest();
       res = httpMocks.createResponse();
       next = () => {};
+
+      spyProfessor = sinon.spy(
+        ticketsByMail.find,
+        'ticketsOfProfessor'
+      );
+      spyStudent = sinon.spy(ticketsByMail.find, 'ticketsOfStudent');
     });
 
     afterEach(() => {
-      stub.restore();
+      spyProfessor.restore();
+      spyStudent.restore();
+      req = {};
     });
 
-    describe('when user is a student', () => {
-      it('should save his tickets in req.ticket', async () => {
-        stub.returns(Promise.resolve(testTicketObject()));
+    describe('if user is a professor', () => {
+      beforeEach(() => {
+        req = httpMocks.createRequest({ user: loginProfessor1 });
+      });
+      it('should call ticketsOfProfessor', async () => {
+        await ticketsByMail.getTickets(req, res, next);
+        expect(spyProfessor.withArgs(loginProfessor1.email).called).to
+          .be.true;
+      });
+      it('should not call ticketsOfStudent', async () => {
+        await ticketsByMail.getTickets(req, res, next);
+        expect(spyStudent.withArgs(loginProfessor1.email).called).to
+          .be.false;
+      });
+    });
 
-        await getTicketsByMail(req, res, next);
-
-        expect(req.ticket).to.be.deep.equal(testTicketObject());
+    describe('if user is a student', () => {
+      beforeEach(() => {
+        req = httpMocks.createRequest({ user: loginStudent });
+      });
+      it('should call ticketsOfStudent', async () => {
+        await ticketsByMail.getTickets(req, res, next);
+        expect(spyStudent.withArgs(loginStudent.email).called).to.be
+          .true;
+      });
+      it('should not call ticketsOfProfessor', async () => {
+        await ticketsByMail.getTickets(req, res, next);
+        expect(spyProfessor.withArgs(loginStudent.email).called).to.be
+          .false;
+      });
+    });
+    describe.skip('if user has no valid role', () => {
+      it('should throw "invalid role"', () => {
+        expect(
+          async () => await ticketsByMail.getTickets(req, res, next)
+        ).to.throw();
       });
     });
   });
 
-  describe('findTicketsOfProfessor', () => {
+  describe('utility functions', () => {
     beforeEach(() => {
-      stub = sinon.stub(getTicketsByRole, 'findAllTickets');
-      req = httpMocks.createRequest(testProfessorObject());
-      res = httpMocks.createResponse();
-      next = () => {};
+      stubByModule = sinon.stub(ticketsByMail.find, 'byModule');
+      stubByModule.withArgs({ title: 'module1' }).returns(ticket1);
+      stubByModule.withArgs({ title: 'module2' }).returns(ticket2);
+      stubByModule.withArgs({ title: 'module3' }).returns(ticket3);
+
+      stubEmailToUser = sinon.stub(ticketsByMail.find, 'emailToUser');
+      stubEmailToUser
+        .withArgs(loginProfessor1)
+        .returns(professorWithModules1);
+      stubEmailToUser
+        .withArgs(loginProfessor2)
+        .returns(professorWithModules2);
+
+      stubTicketsOfStudent = sinon.stub(
+        ticketsByMail.find,
+        'ticketsOfStudent'
+      );
+      stubTicketsOfStudent
+        .withArgs(loginStudent)
+        .returns([ticket1, ticket3]);
     });
 
     afterEach(() => {
-      stub.restore();
+      stubByModule.restore();
+      stubEmailToUser.restore();
+      stubTicketsOfStudent.restore();
     });
 
-    describe('when user is a student', () => {
-      it('should save his tickets in req.ticket', async () => {
-        stub.returns(Promise.resolve(testProfessorObject()));
+    describe('ticketsOfStudent - if the student has tickets associated with his email', () => {
+      it('should return these tickets', async () => {
+        expect(
+          await ticketsByMail.find.ticketsOfStudent(loginStudent)
+        ).to.eql([ticket1, ticket3]);
+      });
+    });
+    describe('ticketsOfProfessor - if the professor has tickets associated with his modules', () => {
+      it('should return these tickets', async () => {
+        expect(
+          await ticketsByMail.find.ticketsOfProfessor(loginProfessor1)
+        ).to.eql([ticket1, ticket2]);
+        expect(
+          await ticketsByMail.find.ticketsOfProfessor(loginProfessor2)
+        ).to.eql([ticket3]);
+      });
+    });
+    describe('findWithModulesPopulated ', () => {
+      it('should return user details with modules', () => {
+        expect(
+          ticketsByMail.find.emailToUser(loginProfessor1)
+        ).to.equal(professorWithModules1);
+        expect(
+          ticketsByMail.find.emailToUser(loginProfessor2)
+        ).to.equal(professorWithModules2);
+      });
+    });
+    describe('findAllTickets ', () => {
+      it('should return all tickets based on user modules', async () => {
+        expect(
+          await ticketsByMail.find.allTickets(professorWithModules1)
+        ).to.eql([ticket1, ticket2]);
+        expect(
+          await ticketsByMail.find.allTickets(professorWithModules2)
+        ).to.eql([ticket3]);
+      });
+    });
 
-        await getTicketsByMail(req, res, next);
+    describe('find by module', () => {
+      it('should return tickets with reference to that module', () => {
+        expect(
+          ticketsByMail.find.byModule({ title: 'module1' })
+        ).to.equal(ticket1);
+        expect(
+          ticketsByMail.find.byModule({ title: 'module2' })
+        ).to.equal(ticket2);
+        expect(
+          ticketsByMail.find.byModule({ title: 'module3' })
+        ).to.equal(ticket3);
+      });
+    });
 
-        // expect(req.ticket).to.be.deep.equal(testTicketObject());
+    describe('full run STUDENT', () => {
+      beforeEach(() => {
+        req = httpMocks.createRequest({ user: loginStudent });
+      });
+      it('should return ticket 1 & 3', async () => {
+        const result = await ticketsByMail.getTickets(req, res, next);
+        // await expect().to.eql(
+        //   [ticket1, ticket3]
+        // );
       });
     });
   });
 });
+
+// user1 (professor) modules [module1, module2] tickets [ticket1, ticket2]
+// user2 (professor) modules [module3] tickets [ticket3]
