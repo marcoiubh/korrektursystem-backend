@@ -16,8 +16,8 @@ const schema = new mongoose.Schema(
 const Module = mongoose.model('Module', schema);
 
 // during tests the module gets reloaded, thus it has to be deleted first
-if (mongoose.models.Module) {
-  delete mongoose.models.Module;
-}
+// if (mongoose.models.Module) {
+//   delete mongoose.models.Module;
+// }
 
 module.exports.Module = Module;

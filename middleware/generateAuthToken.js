@@ -21,8 +21,7 @@ generateAuthToken = function (req, res, next) {
     req.token = token;
     next();
   } catch (error) {
-    console.log('User details or Private Key required.');
-    throw 'User details or Private Key required.';
+    res.status(500).send('Internal Server Error');
   }
 };
 
