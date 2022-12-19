@@ -1,4 +1,4 @@
-const Module = require('../models/module');
+// const Module = require('../models/module');
 const { authentication } = require('../middleware/authentication');
 const express = require('express');
 const router = express.Router();
