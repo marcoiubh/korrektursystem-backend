@@ -7,9 +7,34 @@ const jwt = require('jsonwebtoken');
 const expect = require('chai').expect;
 const { Ticket } = require('../../models/ticket');
 let token = {};
+
+let ticket = {
+  _id: 'aaaaaaaaaaaaaaaaaaaaaaaa',
+  title: 'testTicket',
+  student: 'student_a@iubh.de',
+  date: Date.now(),
+  module: 'BSTA01-01',
+  source: 'App',
+  type: 'Error',
+  comment: 'test',
+};
 const _ = require('lodash');
 
 describe('/tickets', () => {
+  beforeEach(async () => {
+    await clearDatabase();
+    await setDatabase();
+  });
+  afterEach(async () => {});
+
+  before(async () => {
+    createToken();
+  });
+  after(async () => {
+    // await mongoose.disconnect();
+    // server.close();
+  });
+
   describe('GET', () => {
     it('should return 401 "Unauthorized" without passing a valid token', async () => {
       const result = await request(app).get('/tickets');
@@ -45,24 +70,25 @@ describe('/tickets', () => {
     it('should return 200 "OK" when authentification succeeds', async () => {
       const result = await request(app)
         .post('/tickets')
-        .set('x-auth-token', token);
+        .set('x-auth-token', token)
+        .send(ticket);
 
       expect(result.status).to.be.equal(200);
     });
     it('should return new object with an _id property', async () => {
       const result = await request(app)
         .post('/tickets')
-        .set('x-auth-token', token);
-
+        .set('x-auth-token', token)
+        .send(ticket);
       expect(result.body).to.have.property('_id');
     });
     it('should return new object with the title "title01" when an object with that title has been saved', async () => {
       const result = await request(app)
         .post('/tickets')
         .set('x-auth-token', token)
-        .send({ title: 'title01' });
+        .send(ticket);
 
-      expect(result.body).to.include({ title: 'title01' });
+      expect(result.body).to.include({ title: 'testTicket' });
     });
   });
 
@@ -92,20 +118,6 @@ describe('/tickets', () => {
       expect(result.body.status).to.be.equal('Closed');
     });
   });
-
-  beforeEach(async () => {
-    await clearDatabase();
-    await setDatabase();
-  });
-  afterEach(async () => {});
-
-  before(async () => {
-    createToken();
-  });
-  after(async () => {
-    await mongoose.disconnect();
-    // server.close();
-  });
 });
 clearDatabase = async () => {
   const collections = mongoose.connection.collections;
@@ -115,11 +127,7 @@ clearDatabase = async () => {
 };
 
 setDatabase = async () => {
-  const testTicket = new Ticket({
-    _id: 'aaaaaaaaaaaaaaaaaaaaaaaa',
-    title: 'testTicket',
-    student: 'student_a@iubh.de',
-  });
+  testTicket = new Ticket(ticket);
   await testTicket.save();
 };
 
