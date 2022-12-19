@@ -8,11 +8,10 @@ module.exports = async function (req, res, next) {
       req.user.password
     );
 
-    if (result === false) throw new Error(error);
+    if (result === false) throw new Error();
     next();
     return result;
   } catch (error) {
     res.status(400).send('Invalid email or password.');
-    throw error.message;
   }
 };

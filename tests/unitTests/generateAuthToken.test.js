@@ -51,7 +51,9 @@ describe('generateAuthToken', () => {
     afterEach(() => {});
 
     it('should throw an error', async () => {
-      expect(() => generateAuthToken(req, res, next)).to.throw();
+      generateAuthToken(req, res, next);
+      expect(res.statusCode).to.equal(500);
+      expect(res._getData()).to.equal('Internal Server Error');
     });
   });
 });

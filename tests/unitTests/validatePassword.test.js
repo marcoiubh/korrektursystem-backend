@@ -42,17 +42,14 @@ describe('validatePassword', () => {
     it('should resolve', async () => {
       req = httpMocks.createRequest(validPasswords());
 
-      await expect(validatePassword(req, res, next)).to.be.fulfilled;
+      expect(await validatePassword(req, res, next)).to.be.true;
     });
   });
 
   describe('when passwords from database and user input are different', () => {
     it('should reject', async () => {
       req = httpMocks.createRequest(invalidPasswords());
-
-      await expect(
-        validatePassword(req, res, next)
-      ).to.be.rejected.then(() => {
+      await validatePassword(req, res, next).then(() => {
         expect(res.statusCode).to.be.equal(400);
         expect(res._getData()).to.be.equal(
           'Invalid email or password.'
