@@ -22,5 +22,7 @@ module.exports = async function (req, res, next) {
     await ticket.save();
     req.ticket = ticket;
     next();
-  } catch (error) {}
+  } catch (error) {
+    next(error.message);
+  }
 };
