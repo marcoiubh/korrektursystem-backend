@@ -4,6 +4,7 @@ const router = express.Router();
 const getUserByEmail = require('../middleware/getUserByEmail');
 const validatePassword = require('../middleware/validatePassword');
 const generateAuthToken = require('../middleware/generateAuthToken');
+const Module = require('../models/module');
 
 // login
 router.post(
