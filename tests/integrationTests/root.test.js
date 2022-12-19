@@ -21,6 +21,6 @@ describe('/', () => {
 before(async () => {});
 
 after(async () => {
-  mongoose.disconnect();
+  // mongoose.disconnect();
   // server.close();
 });
