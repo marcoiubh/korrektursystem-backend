@@ -17,7 +17,7 @@ const schema = new mongoose.Schema(
 
 const User = mongoose.model('User', schema);
 
-// this is for mocha testing where we need to reload the model
+// during tests the module gets reloaded, thus it has to be deleted first
 if (mongoose.models.User) {
   delete mongoose.models.User;
 }
