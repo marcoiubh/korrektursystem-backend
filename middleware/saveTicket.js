@@ -23,6 +23,6 @@ module.exports = async function (req, res, next) {
     req.ticket = ticket;
     next();
   } catch (error) {
-    next(error.message);
+    res.status(500).json('Internal server error.');
   }
 };

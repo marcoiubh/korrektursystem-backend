@@ -32,7 +32,6 @@ validateToken = (req, res, next) => {
       debug(err.message);
       res.status(400).send(err.message);
     }
-    throw err.message;
   }
 };
 
