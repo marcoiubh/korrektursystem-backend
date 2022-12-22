@@ -24,7 +24,7 @@ const ticketCreated = async (req, res, next) => {
       debug('Mail could not be sent.', error);
       res.status(503).send('Email service not available');
     }
-  }
+  } else next();
 };
 
 const ticketUpdated = async (req, res, next) => {
@@ -47,7 +47,7 @@ const ticketUpdated = async (req, res, next) => {
       debug('Mail could not be sent.', error);
       res.status(503).send('Email service not available');
     }
-  }
+  } else next();
 };
 const issueCreated = async (req, res, next) => {
   // get dynamic content of the form
@@ -72,7 +72,7 @@ const issueCreated = async (req, res, next) => {
       debug('Mail could not be sent.', error);
       res.status(503).send('Email service not available');
     }
-  }
+  } else next();
 };
 
 module.exports = { issueCreated, ticketCreated, ticketUpdated };

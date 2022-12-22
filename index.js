@@ -13,7 +13,7 @@ checkPrivateKeys();
 
 require('./startup/cors')(app);
 require('./startup/database')();
-morganBody(app);
+// morganBody(app);
 require('./startup/routes')(app);
 require('./startup/startServer')(app);
 
