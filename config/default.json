@@ -1,6 +1,5 @@
 {
   "database": "mongodb://localhost/kms",
-  "jwtPrivateKey": "",
   "email": {
     "host": "smtp.mail.de",
     "port": 587,
