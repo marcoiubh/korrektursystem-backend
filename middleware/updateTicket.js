@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const { Ticket } = require('../models/ticket');
+const  Ticket  = require('../models/ticket');
 
-module.exports = async function (req, res, next) {
+const updateTicket = async (req, res, next) => {
   try {
     let ticket = await Ticket.findOne({ _id: req.params.id });
     let newFields = _.pick(req.body, [
@@ -21,3 +21,5 @@ module.exports = async function (req, res, next) {
     res.status(500).json('Internal server error.');
   }
 };
+
+module.exports = updateTicket;

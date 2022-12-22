@@ -1,14 +1,12 @@
-const authentication = require('../routes/authentication');
 const express = require('express');
-const root = require('../routes/root');
-const tickets = require('../routes/tickets');
+const authentication = require('../routes/authentication');
 const issue = require('../routes/issue');
+const tickets = require('../routes/tickets');
 
 // application level middleware
 module.exports = (app) => {
   app.use(express.json());
-  app.use('/', root);
-  app.use('/tickets', tickets);
   app.use('/authentication', authentication);
   app.use('/issue', issue);
+  app.use('/tickets', tickets);
 };

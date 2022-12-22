@@ -1,6 +1,6 @@
 const errorlog = require('debug')('error');
 
-module.exports = checkPrivateKeys = () => {
+const checkPrivateKeys = () => {
   try {
     if (!process.env.kms_jwtPrivateKey) {
       throw new Error(
@@ -17,3 +17,5 @@ module.exports = checkPrivateKeys = () => {
     errorlog(error.message);
   }
 };
+
+module.exports = checkPrivateKeys;

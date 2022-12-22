@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-module.exports = async function (req, res, next) {
+const validatePassword = async (req, res, next) => {
   // compare passwords
   try {
     const result = await bcrypt.compare(
@@ -15,3 +15,5 @@ module.exports = async function (req, res, next) {
     res.status(400).send('Invalid email or password.');
   }
 };
+
+module.exports = validatePassword;

@@ -53,4 +53,4 @@ if (mongoose.models.Ticket) {
   delete mongoose.models.Ticket;
 }
 
-module.exports.Ticket = Ticket;
+module.exports = Ticket;

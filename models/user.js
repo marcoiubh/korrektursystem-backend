@@ -26,4 +26,4 @@ if (mongoose.models.User) {
   delete mongoose.models.User;
 }
 
-module.exports.User = User;
+module.exports = User;

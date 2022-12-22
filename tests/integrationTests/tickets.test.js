@@ -5,7 +5,7 @@ const server = require('../../startup/startServer');
 const config = require('config');
 const jwt = require('jsonwebtoken');
 const expect = require('chai').expect;
-const { Ticket } = require('../../models/ticket');
+const Ticket = require('../../models/ticket');
 let token = {};
 
 let ticket = {

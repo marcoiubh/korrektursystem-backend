@@ -9,8 +9,10 @@ const Module = require('../models/module');
 // login
 router.post(
   '/',
-  [getUserByEmail, validatePassword, generateAuthToken],
-  async (req, res) => {
+  getUserByEmail,
+  validatePassword,
+  generateAuthToken,
+  (req, res) => {
     // escape output
     res.json(_.escape(req.token));
   }

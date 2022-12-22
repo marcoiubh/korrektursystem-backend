@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const { Ticket } = require('../models/ticket');
+const Ticket = require('../models/ticket');
 
-module.exports = async function (req, res, next) {
+const saveTicket = async (req, res, next) => {
   try {
     const ticket = new Ticket(
       _.pick(req.body, [
@@ -26,3 +26,5 @@ module.exports = async function (req, res, next) {
     res.status(500).json('Internal server error.');
   }
 };
+
+module.exports = saveTicket;

@@ -1,7 +1,7 @@
 const config = require('config');
 const jwt = require('jsonwebtoken');
 
-generateAuthToken = function (req, res, next) {
+const generateAuthToken = (req, res, next) => {
   try {
     const { email, role } = req.user;
     const jwtPrivateKey = config.get('jwtPrivateKey');

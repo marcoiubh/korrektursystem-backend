@@ -1,6 +1,8 @@
 const {
   getTokenFromHeader,
-} = require('../../middleware/authentication');
+  validateToken,
+  authorization,
+} = require('../../middleware/authorization');
 const httpMocks = require('node-mocks-http');
 const { expect } = require('chai');
 const config = require('config');
@@ -25,7 +27,7 @@ function expiredToken() {
   );
 }
 
-describe('authentication', () => {
+describe('authorization', () => {
   let req;
   let res;
   let next;
@@ -37,13 +39,13 @@ describe('authentication', () => {
 
   afterEach(() => {});
 
-  describe('authentication', () => {
+  describe('authorization', () => {
     describe('when token is valid', () => {
       it('should resolve', async () => {
         req = httpMocks.createRequest({
           headers: { 'x-auth-token': validToken() },
         });
-        authentication(req, res, next);
+        authorization(req, res, next);
         expect(req.user).to.include({
           email: 'student_a@iubh.de',
           role: 'student',
@@ -55,7 +57,7 @@ describe('authentication', () => {
       it('should reject', async () => {
         req = httpMocks.createRequest({});
 
-        expect(() => authentication(req, res, next)).to.throw();
+        expect(() => authorization(req, res, next)).to.throw();
       });
     });
   });
@@ -98,36 +100,24 @@ describe('authentication', () => {
       });
     });
 
-    describe('when token is not present', () => {
-      it('should reject with 400 - Invalid email or password.', async () => {
-        req = httpMocks.createRequest({
-          token: '',
-        });
-
-        expect(validateToken(req, res)).to.be.not.ok;
-        expect(res.statusCode).to.be.equal(400);
-        expect(res._getData()).to.be.equal(
-          'JsonWebTokenError: jwt must be provided'
-        );
-      });
-    });
-
     describe('when token is expired', () => {
-      it('should reject with 401 - Token expired.', async () => {
+      it('should reject with 401 - TokenExpiredError: jwt expired.', async () => {
         req = httpMocks.createRequest({ token: expiredToken() });
 
         expect(validateToken(req, res)).to.be.not.ok;
         expect(res.statusCode).to.be.equal(401);
-        expect(res._getData()).to.be.equal('Token expired.');
+        expect(res._getData()).to.be.equal(
+          'TokenExpiredError: jwt expired'
+        );
       });
     });
 
     describe('when token is invalid', () => {
-      it('should reject with 400 - jwt malformed', async () => {
+      it('should reject with 401 - JsonWebTokenError: jwt malformed', async () => {
         req = httpMocks.createRequest({ token: 'wrong' });
 
         expect(validateToken(req, res)).to.be.not.ok;
-        expect(res.statusCode).to.be.equal(400);
+        expect(res.statusCode).to.be.equal(401);
         expect(res._getData()).to.be.equal(
           'JsonWebTokenError: jwt malformed'
         );

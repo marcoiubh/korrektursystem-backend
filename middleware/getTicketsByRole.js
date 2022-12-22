@@ -1,5 +1,5 @@
-const { Ticket } = require('../models/ticket');
-const { User } = require('../models/user');
+const Ticket  = require('../models/ticket');
+const User  = require('../models/user');
 const debug = require('debug')('info');
 
 let find = {
@@ -39,7 +39,7 @@ let find = {
   },
 };
 
-getTickets = async (req, res, next) => {
+const getTickets = async (req, res, next) => {
   const { role, email } = req.user;
   let ticket = {};
 

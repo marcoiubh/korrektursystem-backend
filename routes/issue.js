@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { authentication } = require('../middleware/authentication');
-const sendConfirmation = require('../middleware/sendConfirmation');
+const { authorization } = require('../middleware/authorization');
+const { issueCreated } = require('../middleware/sendConfirmation');
 
-router.post(
-  '/',
-  [authentication, sendConfirmation.issueCreated],
-  async (req, res) => {
-    res.json('Email has been sent.');
-  }
-);
+router.post('/', authorization, issueCreated, (req, res, next) => {
+  res.json('Email has been sent.');
+});
+
 module.exports = router;

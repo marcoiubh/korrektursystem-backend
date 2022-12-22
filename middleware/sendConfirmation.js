@@ -1,9 +1,8 @@
-const { Ticket } = require('../models/ticket');
 const config = require('config');
 const sendEmail = require('../services/emailService');
 const debug = require('debug')('error');
 
-module.exports.ticketCreated = async function (req, res, next) {
+const ticketCreated = async (req, res, next) => {
   const { student, module, comment, title } = req.ticket;
   if (config.get('testEmail')) {
     const emailText = `
@@ -21,12 +20,13 @@ module.exports.ticketCreated = async function (req, res, next) {
       );
     } catch (error) {
       debug('Mail could not be sent.', error);
+      res.status(503).send('Email service not available');
     }
   }
   next();
 };
 
-module.exports.ticketUpdated = async function (req, res, next) {
+const ticketUpdated = async (req, res, next) => {
   const { statement, module, title } = req.ticket;
   // set email confirmation based on config
   // avoid sending email when only read status has changed by checking statement
@@ -42,13 +42,14 @@ module.exports.ticketUpdated = async function (req, res, next) {
       await sendEmail(config.get('email.student'), title, emailText);
     } catch (error) {
       debug('Mail could not be sent.', error);
+      res.status(503).send('Email service not available');
     }
   }
   next();
 };
-module.exports.issueCreated = async function (req, res, next) {
+const issueCreated = async (req, res, next) => {
   // get dynamic content of the form
-  const { issue, description } = req.body;
+  const { title, description } = req.body;
   // get user details from authentication middleware
   const { email } = req.user;
   // set email content
@@ -56,17 +57,20 @@ module.exports.issueCreated = async function (req, res, next) {
     const emailText = `
   An issue has been reported by ${email}.
   ––––––––––––––––––––––––––––––
-  Issue: ${issue}
+  Issue: ${title}
   Description: 
   
   ${description}
 `;
 
     try {
-      await sendEmail(config.get('email.server'), issue, emailText);
+      await sendEmail(config.get('email.server'), title, emailText);
     } catch (error) {
       debug('Mail could not be sent.', error);
+      res.status(503).send('Email service not available');
     }
   }
   next();
 };
+
+module.exports = { issueCreated, ticketCreated, ticketUpdated };

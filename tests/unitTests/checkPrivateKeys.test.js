@@ -1,6 +1,7 @@
 const config = require('config');
 const proxyquire = require('proxyquire').noPreserveCache();
 const expect = require('chai').expect;
+const checkPrivateKeys = require('../../services/checkPrivateKeys');
 
 describe('checkPrivateKeys', () => {
   it('should fail if environment variable for jwtPrivateKey is not set', () => {

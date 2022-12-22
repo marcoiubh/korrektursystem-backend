@@ -1,6 +1,6 @@
 // create express object called app
 const express = require('express');
-module.exports = app = express();
+app = express();
 
 // import loggers
 const debug = require('debug')('error');
@@ -16,3 +16,5 @@ require('./startup/database')();
 morganBody(app);
 require('./startup/routes')(app);
 require('./startup/startServer')(app);
+
+module.exports = app;

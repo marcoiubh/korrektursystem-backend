@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 
-const { User } = require('../../models/user');
+const User = require('../../models/user');
 
 describe('User Model', () => {
   it('should be invalid if required field is missing', () => {

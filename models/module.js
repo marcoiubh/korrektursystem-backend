@@ -21,4 +21,4 @@ if (process.env.NODE_ENV === 'test') {
     delete mongoose.models.Module;
   }
 }
-module.exports.Module = Module;
+module.exports = Module;
