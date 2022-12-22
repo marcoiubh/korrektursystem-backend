@@ -1,4 +1,3 @@
-// const Module = require('../models/module');
 const { authorization } = require('../middleware/authorization');
 const express = require('express');
 const router = express.Router();

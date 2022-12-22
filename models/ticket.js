@@ -49,8 +49,9 @@ const schema = new mongoose.Schema(
 const Ticket = mongoose.model('Ticket', schema);
 
 // during tests the module gets reloaded, thus it has to be deleted first
-if (mongoose.models.Ticket) {
-  delete mongoose.models.Ticket;
+if (process.env.NODE_ENV === 'test') {
+  if (mongoose.models.Ticket) {
+    delete mongoose.models.Ticket;
+  }
 }
-
 module.exports = Ticket;
