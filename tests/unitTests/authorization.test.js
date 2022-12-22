@@ -7,10 +7,6 @@ const httpMocks = require('node-mocks-http');
 const { expect } = require('chai');
 const config = require('config');
 const jwt = require('jsonwebtoken');
-var chai = require('chai');
-var chaiAsPromised = require('chai-as-promised');
-
-chai.use(chaiAsPromised);
 
 function validToken() {
   return jwt.sign(
