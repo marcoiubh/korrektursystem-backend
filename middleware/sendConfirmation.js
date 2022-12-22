@@ -12,18 +12,19 @@ const ticketCreated = async (req, res, next) => {
       Title: ${title}
       Message: ${comment}
   `;
+
     try {
       await sendEmail(
         config.get('email.professor'),
         title,
         emailText
       );
+      next();
     } catch (error) {
       debug('Mail could not be sent.', error);
       res.status(503).send('Email service not available');
     }
   }
-  next();
 };
 
 const ticketUpdated = async (req, res, next) => {
@@ -38,14 +39,15 @@ const ticketUpdated = async (req, res, next) => {
         Title: ${title}
         Message: ${statement}
     `;
+
     try {
       await sendEmail(config.get('email.student'), title, emailText);
+      next();
     } catch (error) {
       debug('Mail could not be sent.', error);
       res.status(503).send('Email service not available');
     }
   }
-  next();
 };
 const issueCreated = async (req, res, next) => {
   // get dynamic content of the form
@@ -65,12 +67,12 @@ const issueCreated = async (req, res, next) => {
 
     try {
       await sendEmail(config.get('email.server'), title, emailText);
+      next();
     } catch (error) {
       debug('Mail could not be sent.', error);
       res.status(503).send('Email service not available');
     }
   }
-  next();
 };
 
 module.exports = { issueCreated, ticketCreated, ticketUpdated };

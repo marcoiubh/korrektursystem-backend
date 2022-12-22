@@ -5,49 +5,33 @@ const debug = require('debug')('error');
 
 // SMTP
 const smtpConfig = () => {
-  try {
-    let transporter = nodemailer.createTransport({
-      host: config.get('email.host'),
-      port: config.get('email.port'),
-      secure: config.get('email.secure'),
-      auth: {
-        user: config.get('email.server'),
-        pass: config.get('emailPrivateKey'), // get key from environment variable
-      },
-      // enable sending from local host
-      tls: {
-        rejectUnauthorized: config.get('email.rejectUnauthorized'),
-      },
-    });
-    // TODO: does not throw error with wrong password!
-    return transporter;
-  } catch (error) {
-    console.error('smtp error');
-  }
+  let transporter = nodemailer.createTransport({
+    host: config.get('email.host'),
+    port: config.get('email.port'),
+    secure: config.get('email.secure'),
+    auth: {
+      user: config.get('email.server'),
+      pass: config.get('emailPrivateKey'),
+    },
+    // enable sending from local host
+    tls: {
+      rejectUnauthorized: config.get('email.rejectUnauthorized'),
+    },
+  });
+  return transporter;
 };
 
-const sendEmail = (to, subject, text) => {
-  return new Promise((resolve, reject) => {
-    // email data
-    let mail = {
-      from: `"Ticketsystem" <${config.get('email.server')}>`, // from ticketsystem
-      to: to, // to admin, but for testing purposes implemented in form
-      subject: subject,
-      text: text,
-    };
-    // send mail with defined transport object
-    let transporter = smtpConfig();
-    transporter
-      .sendMail(mail)
-      .then(() => {
-        debug('Email sent successfully');
-        resolve(true);
-      })
-      .catch((error) => {
-        debug('Email not sending', error);
-        reject(false);
-      });
-  });
+const sendEmail = async (recipient, subject, text) => {
+  // email data
+  let mail = {
+    from: `"Korrektursystem" <${config.get('email.server')}>`,
+    to: recipient,
+    subject: subject,
+    text: text,
+  };
+  // send mail with defined transport object
+  let transporter = smtpConfig();
+  return await transporter.sendMail(mail);
 };
 
 module.exports = sendEmail;
