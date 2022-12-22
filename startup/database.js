@@ -4,13 +4,13 @@ const debug = require('debug')('db');
 
 mongoose.set('strictQuery', false);
 
-module.exports = function () {
-  // database depends on the current environment
+module.exports = async () => {
+  // database depends on the current node environment
   const database = config.get('database');
-  mongoose
-    .connect(database)
-    .then(() => debug(`connected to ${database}`))
-    .catch((error) =>
-      debug(`connection to ${database} failed`, error)
-    );
+  try {
+    await mongoose.connect(database);
+    debug(`connected to ${database}`);
+  } catch (error) {
+    debug(`connection to ${database} failed`, error.message);
+  }
 };

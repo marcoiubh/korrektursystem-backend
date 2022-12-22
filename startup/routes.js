@@ -5,7 +5,7 @@ const tickets = require('../routes/tickets');
 const issue = require('../routes/issue');
 
 // application level middleware
-module.exports = function (app) {
+module.exports = (app) => {
   app.use(express.json());
   app.use('/', root);
   app.use('/tickets', tickets);

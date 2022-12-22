@@ -1,10 +1,10 @@
-const debug = require('debug')('http');
+const httplog = require('debug')('http');
 
-module.exports = function (app) {
+module.exports = (app) => {
   if (process.env.NODE_ENV !== 'test') {
     const port = process.env.PORT || 4000;
     app.listen(port, () => {
-      debug(`listening on port ${port}...`);
+      httplog(`listening on port ${port}...`);
     });
   }
 };
