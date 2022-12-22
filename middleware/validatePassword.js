@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 
 const validatePassword = async (req, res, next) => {
-  // compare passwords
   try {
     const result = await bcrypt.compare(
       req.body.password,

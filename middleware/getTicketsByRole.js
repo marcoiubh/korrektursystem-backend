@@ -1,5 +1,5 @@
-const Ticket  = require('../models/ticket');
-const User  = require('../models/user');
+const Ticket = require('../models/ticket');
+const User = require('../models/user');
 const debug = require('debug')('info');
 
 let find = {
@@ -32,7 +32,7 @@ let find = {
     // find supervised modules
     const user = await find.emailToUser(email);
     // find tickets for each module
-    if (!user) return;
+    if (!user) throw new Error();
     const ticketArray = await find.allTickets(user);
     // flatten arrays in array structure to one level
     return ticketArray.flat(1);
@@ -48,11 +48,11 @@ const getTickets = async (req, res, next) => {
       ticket = await find.ticketsOfStudent(email);
     } else if (role === 'professor') {
       ticket = await find.ticketsOfProfessor(email);
-    } else throw 'invalid role';
+    } else throw new Error('invalid role');
     req.ticket = ticket;
     next();
   } catch (error) {
-    throw error;
+    res.status(500).send('Internal Server Error');
   }
 };
 
