@@ -10,7 +10,7 @@ describe('checkPrivateKeys', () => {
       '../../services/checkPrivateKeys',
       {}
     );
-    expect(() => checkPrivateKeys()).to.throw();
+    expect(checkPrivateKeys()).to.be.not.ok;
   });
   it('should fail if environment variable for emailPrivateKey is not set', () => {
     process.env.kms_jwtPrivateKey = 'test';
@@ -19,7 +19,7 @@ describe('checkPrivateKeys', () => {
       '../../services/checkPrivateKeys',
       {}
     );
-    expect(() => checkPrivateKeys()).to.throw();
+    expect(checkPrivateKeys()).to.be.not.ok;
   });
   it('should pass if environment variables are both set', () => {
     process.env.kms_jwtPrivateKey = 'test';

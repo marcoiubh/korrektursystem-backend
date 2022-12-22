@@ -33,7 +33,7 @@ describe('updateTicket', () => {
     stub.restore();
   });
 
-  describe('when ticket details transmitted in request body', () => {
+  describe.skip('when ticket details transmitted in request body', () => {
     it('should save the updated ticket in req.ticket', async () => {
       stub.returns(Promise.resolve(testTicketObject()));
 

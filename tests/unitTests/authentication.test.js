@@ -104,7 +104,7 @@ describe('authentication', () => {
           token: '',
         });
 
-        expect(() => validateToken(req, res)).to.throw();
+        expect(validateToken(req, res)).to.be.not.ok;
         expect(res.statusCode).to.be.equal(400);
         expect(res._getData()).to.be.equal(
           'JsonWebTokenError: jwt must be provided'
@@ -116,7 +116,7 @@ describe('authentication', () => {
       it('should reject with 401 - Token expired.', async () => {
         req = httpMocks.createRequest({ token: expiredToken() });
 
-        expect(() => validateToken(req, res)).to.throw();
+        expect(validateToken(req, res)).to.be.not.ok;
         expect(res.statusCode).to.be.equal(401);
         expect(res._getData()).to.be.equal('Token expired.');
       });
@@ -126,7 +126,7 @@ describe('authentication', () => {
       it('should reject with 400 - jwt malformed', async () => {
         req = httpMocks.createRequest({ token: 'wrong' });
 
-        expect(() => validateToken(req, res)).to.throw();
+        expect(validateToken(req, res)).to.be.not.ok;
         expect(res.statusCode).to.be.equal(400);
         expect(res._getData()).to.be.equal(
           'JsonWebTokenError: jwt malformed'
