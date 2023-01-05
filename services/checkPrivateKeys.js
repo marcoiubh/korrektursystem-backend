@@ -4,12 +4,12 @@ const checkPrivateKeys = () => {
   try {
     if (!process.env.kms_jwtPrivateKey) {
       throw new Error(
-        'FATAL ERROR: no private key provided to decode token'
+        'FATAL ERROR: no private key provided to sign token.'
       );
     }
     if (!process.env.kms_emailPrivateKey) {
       throw new Error(
-        'FATAL ERROR: no private key to access email server provided.'
+        'FATAL ERROR: no private key provided to access email server.'
       );
     }
     return true;
