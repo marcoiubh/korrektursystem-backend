@@ -2,9 +2,10 @@ const User = require('../models/user');
 
 const getUserByEmail = async (req, res, next) => {
   try {
-    // validate that exists
+    // validate that user exists
     let user = await User.findOne({ email: req.body.email });
     if (!user) throw new Error();
+    // store user object in request
     req.user = user;
     next();
   } catch (error) {

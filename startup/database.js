@@ -1,16 +1,17 @@
 const config = require('config');
 const mongoose = require('mongoose');
-const debug = require('debug')('db');
+const errorlog = require('debug')('error');
+const infolog = require('debug')('info');
 
 mongoose.set('strictQuery', false);
 
 module.exports = async () => {
-  // database depends on the current node environment
+  // database depends on current node environment
   const database = config.get('database');
   try {
     await mongoose.connect(database);
-    debug(`connected to ${database}`);
+    infolog(`connected to ${database}`);
   } catch (error) {
-    debug(`connection to ${database} failed`, error.message);
+    errorlog(`connection to ${database} failed`, error.message);
   }
 };

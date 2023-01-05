@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 
 const validatePassword = async (req, res, next) => {
   try {
+    // compare submitted password with hashed password from database
     const result = await bcrypt.compare(
       req.body.password,
       req.user.password

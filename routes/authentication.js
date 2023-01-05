@@ -13,7 +13,7 @@ router.post(
   validatePassword,
   generateAuthToken,
   (req, res) => {
-    // escape output
+    // escape output to prevent xss attacks
     res.json(_.escape(req.token));
   }
 );

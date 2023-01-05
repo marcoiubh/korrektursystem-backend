@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
 const _ = require('lodash');
 const config = require('config');
-const debug = require('debug')('error');
 
 // SMTP
 const smtpConfig = () => {

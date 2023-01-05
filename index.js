@@ -6,14 +6,10 @@ app = express();
 const debug = require('debug')('error');
 const morganBody = require('morgan-body');
 
-// import function
-const checkPrivateKeys = require('./services/checkPrivateKeys');
-
-checkPrivateKeys();
-
+// run startup procedure
+require('./services/checkPrivateKeys')();
 require('./startup/cors')(app);
 require('./startup/database')();
-// morganBody(app);
 require('./startup/routes')(app);
 require('./startup/startServer')(app);
 

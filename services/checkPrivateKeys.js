@@ -1,6 +1,8 @@
 const errorlog = require('debug')('error');
+const infolog = require('debug')('info');
 
 const checkPrivateKeys = () => {
+  infolog('Private keys checked.');
   try {
     if (!process.env.kms_jwtPrivateKey) {
       throw new Error(
