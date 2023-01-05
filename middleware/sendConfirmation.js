@@ -1,9 +1,11 @@
 const config = require('config');
 const sendEmail = require('../services/emailService');
-const debug = require('debug')('error');
 
 const ticketCreated = async (req, res, next) => {
+  // get dynamic content from the form
   const { student, module, comment, title } = req.ticket;
+
+  // send emails if configuration is enabled only
   if (config.get('testEmail')) {
     const emailText = `
       ${student} has created a ticket.
@@ -21,16 +23,17 @@ const ticketCreated = async (req, res, next) => {
       );
       next();
     } catch (error) {
-      debug('Mail could not be sent.', error);
       res.status(503).send('Email service not available');
     }
   } else next();
 };
 
 const ticketUpdated = async (req, res, next) => {
+  // get dynamic content from the form
   const { statement, module, title } = req.ticket;
-  // set email confirmation based on config
-  // avoid sending email when only read status has changed by checking statement
+
+  // send emails if configuration is enabled only
+  // avoid sending email when only read status has been changed by checking statement too
   if (config.get('testEmail') && statement) {
     const emailText = `
         Your ticket has been updated.
@@ -44,18 +47,20 @@ const ticketUpdated = async (req, res, next) => {
       await sendEmail(config.get('email.student'), title, emailText);
       next();
     } catch (error) {
-      debug('Mail could not be sent.', error);
       res.status(503).send('Email service not available');
     }
   } else next();
 };
+
 const issueCreated = async (req, res, next) => {
-  // get dynamic content of the form
+  // get dynamic content from the form
   const { title, description } = req.body;
-  // get user details from authentication middleware
+  // get user email from authorization middleware
   const { email } = req.user;
-  // set email content
+
+  // send emails if configuration is enabled only
   if (config.get('testEmail')) {
+    // set email content
     const emailText = `
   An issue has been reported by ${email}.
   ––––––––––––––––––––––––––––––
@@ -69,7 +74,6 @@ const issueCreated = async (req, res, next) => {
       await sendEmail(config.get('email.server'), title, emailText);
       next();
     } catch (error) {
-      debug('Mail could not be sent.', error);
       res.status(503).send('Email service not available');
     }
   } else next();

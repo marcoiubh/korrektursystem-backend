@@ -1,32 +1,32 @@
 const config = require('config');
 const jwt = require('jsonwebtoken');
-const debug = require('debug')('error');
 
 const getTokenFromHeader = (req, res) => {
   try {
+    // extract x-auth-token from header
     const token = req.header('x-auth-token');
     if (!token) throw 'exit';
+    // store token in request
     req.token = token;
   } catch (error) {
     res.status(401).send('Access denied. No token provided.');
-    throw 401;
   }
 };
 
 const validateToken = (req, res, next) => {
   try {
+    // get token from request and verify valid signature and expiration
     jwt.verify(
       req.token,
       config.get('jwtPrivateKey'),
       (err, decodedPayload) => {
         if (err) throw new Error(err);
-        // save user object with token payload
+        // store decoded payload in user object
         req.user = decodedPayload;
         next();
       }
     );
   } catch (err) {
-    debug(err.message);
     res.status(401).send(err.message);
   }
 };
