@@ -52,8 +52,8 @@ describe('authorization', () => {
     describe('when token is not valid', () => {
       it('should reject', async () => {
         req = httpMocks.createRequest({});
-
-        expect(() => authorization(req, res, next)).to.throw();
+        authorization(req, res, next);
+        expect(res.statusCode).to.be.equal(401);
       });
     });
   });
@@ -72,8 +72,7 @@ describe('authorization', () => {
     describe('when token is not provided in the header', () => {
       it('should reject', async () => {
         req = httpMocks.createRequest({});
-
-        expect(() => getTokenFromHeader(req, res)).to.throw();
+        getTokenFromHeader(req, res);
         expect(res.statusCode).to.be.equal(401);
         expect(res._getData()).to.be.equal(
           'Access denied. No token provided.'

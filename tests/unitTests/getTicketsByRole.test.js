@@ -118,10 +118,10 @@ describe('find tickets of users', () => {
       });
     });
     describe('if user has no valid role', () => {
-      it('should throw "invalid role"', () => {
-        ticketsByMail
-          .getTickets(req, res, next)
-          .then((result) => expect(result).to.throw());
+      it('should throw "invalid role"', async () => {
+        req = httpMocks.createRequest({ user: invalidRole });
+        await ticketsByMail.getTickets(req, res, next);
+        expect(res.statusCode).to.be.equal(500);
       });
     });
   });
