@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// declare document data structure
 const schema = new mongoose.Schema(
   {
     title: String,
@@ -13,6 +14,7 @@ const schema = new mongoose.Schema(
   { versionKey: false }
 );
 
+// create an instance of this document
 const Module = mongoose.model('Module', schema);
 
 // during tests the module gets reloaded, thus it has to be deleted first
