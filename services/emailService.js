@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 const _ = require('lodash');
 const config = require('config');
 
-// SMTP
 const smtpConfig = () => {
   let transporter = nodemailer.createTransport({
     host: config.get('email.host'),

@@ -9,6 +9,7 @@ const validatePassword = async (req, res, next) => {
     );
 
     if (result === false) throw new Error();
+
     next();
     return result;
   } catch (error) {
