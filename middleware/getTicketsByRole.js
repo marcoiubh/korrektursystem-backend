@@ -18,6 +18,7 @@ let find = {
   byModule: async (module) => {
     return await Ticket.find({ module: module.title });
   },
+
   allTickets: async (user) => {
     // wait for each fetch to be done
     return await Promise.all(
@@ -28,11 +29,12 @@ let find = {
       })
     );
   },
+
   ticketsOfProfessor: async (email) => {
     // find supervised modules
     const user = await find.userObjectByEmail(email);
-    // find tickets for each module
     if (!user) throw new Error();
+    // find all tickets with reference to each of the modules
     const ticketArray = await find.allTickets(user);
     // flatten arrays in array structure to one level
     return ticketArray.flat(1);
@@ -41,16 +43,18 @@ let find = {
 
 const getTickets = async (req, res, next) => {
   const { role, email } = req.user;
-  let ticket = {};
+  let tickets = {};
 
   try {
     // fetch tickets based on user role
     if (role === 'student') {
-      ticket = await find.ticketsOfStudent(email);
+      tickets = await find.ticketsOfStudent(email);
     } else if (role === 'professor') {
-      ticket = await find.ticketsOfProfessor(email);
+      tickets = await find.ticketsOfProfessor(email);
     } else throw new Error('invalid role');
-    req.ticket = ticket;
+
+    // store ticket array in request
+    req.tickets = tickets;
     next();
   } catch (error) {
     res.status(500).send('Internal Server Error');

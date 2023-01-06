@@ -14,7 +14,7 @@ router.use(authorization);
 
 // get all tickets based on role and email
 router.get('/', getTickets, (req, res) => {
-  res.json(req.ticket);
+  res.json(req.tickets);
 });
 
 // create a ticket

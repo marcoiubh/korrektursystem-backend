@@ -183,20 +183,5 @@ describe('find tickets of users', () => {
         ).to.equal(ticket3);
       });
     });
-
-    // describe.skip('full run STUDENT', () => {
-    //   beforeEach(() => {
-    //     req = httpMocks.createRequest({ user: loginStudent });
-    //   });
-    //   it('should return ticket 1 & 3', async () => {
-    //     const result = await ticketsByMail.getTickets(req, res, next);
-    //     // await expect().to.eql(
-    //     //   [ticket1, ticket3]
-    //     // );
-    //   });
-    // });
   });
 });
-
-// user1 (professor) modules [module1, module2] tickets [ticket1, ticket2]
-// user2 (professor) modules [module3] tickets [ticket3]
