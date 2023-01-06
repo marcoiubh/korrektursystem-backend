@@ -23,7 +23,11 @@ const ticketCreated = async (req, res, next) => {
       );
       next();
     } catch (error) {
-      res.status(503).send('Email service not available');
+      res
+        .status(503)
+        .send(
+          'Ticket has been created, but email service is currently not available.'
+        );
     }
   } else next();
 };
@@ -49,7 +53,11 @@ const ticketUpdated = async (req, res, next) => {
       await sendEmail(config.get('email.student'), title, emailText);
       next();
     } catch (error) {
-      res.status(503).send('Email service not available');
+      res
+        .status(503)
+        .send(
+          'Changes have been saved, but email service is currently not available.'
+        );
     }
   } else next();
 };
