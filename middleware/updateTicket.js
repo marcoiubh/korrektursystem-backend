@@ -3,7 +3,10 @@ const Ticket = require('../models/ticket');
 
 const updateTicket = async (req, res, next) => {
   try {
+    // find ticket based on ticket id in url params
     let oldTicket = await Ticket.findOne({ _id: req.params.id });
+
+    // pick new values from request body
     let newTicket = _.pick(req.body, [
       'date',
       'priority',
@@ -14,12 +17,18 @@ const updateTicket = async (req, res, next) => {
       'history',
     ]);
 
+    // copy new fields to original ticket
+    const ticket = Object.assign(oldTicket, newTicket);
+
+    // save ticket to database
+    await ticket.save();
+
+    // save ticket in request
+    req.ticket = ticket;
+
     // set an email flag only if statement, priority or status changed
     req.email = ticketContentChanged(oldTicket, newTicket);
 
-    const ticket = Object.assign(oldTicket, newTicket);
-    await ticket.save();
-    req.ticket = ticket;
     next();
   } catch (error) {
     res.status(500).json('Internal Server Error.');

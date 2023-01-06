@@ -7,6 +7,7 @@ const ticketCreated = async (req, res, next) => {
 
   // send emails if configuration is enabled only
   if (config.get('emailServiceEnabled')) {
+    // email text content
     const emailText = `
       ${student} has created a ticket.
       –––––––––––––––––––––––––––––––––––––––
@@ -14,7 +15,7 @@ const ticketCreated = async (req, res, next) => {
       Title: ${title}
       Message: ${comment}
   `;
-
+    // send email to professor with ticket title and email text
     try {
       await sendEmail(
         config.get('email.professor'),
@@ -39,8 +40,8 @@ const ticketUpdated = async (req, res, next) => {
   // send emails if configuration is enabled only
   // avoid sending email when only read status has been changed by checking email flag
   // see updateTicket
-
   if (config.get('emailServiceEnabled') && req.email) {
+    // email text content
     const emailText = `
         Your ticket has been updated.
         –––––––––––––––––––––––––––––––––––––––
@@ -49,6 +50,7 @@ const ticketUpdated = async (req, res, next) => {
         Message: ${statement}
     `;
 
+    // send email to student with ticket title and email text
     try {
       await sendEmail(config.get('email.student'), title, emailText);
       next();
@@ -70,7 +72,7 @@ const issueCreated = async (req, res, next) => {
 
   // send emails if configuration is enabled only
   if (config.get('emailServiceEnabled')) {
-    // set email content
+    // email text content
     const emailText = `
   An issue has been reported by ${email}.
   ––––––––––––––––––––––––––––––
@@ -79,7 +81,7 @@ const issueCreated = async (req, res, next) => {
   
   ${description}
 `;
-
+    // send email to sys admin with ticket title and email text
     try {
       await sendEmail(config.get('email.server'), title, emailText);
       next();
