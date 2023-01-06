@@ -19,7 +19,7 @@ const schema = new mongoose.Schema(
     },
     priority: {
       type: String,
-      enum: ['Critical', 'Major', 'Medium', 'Minor'],
+      enum: ['', 'Critical', 'Major', 'Medium', 'Minor'],
     },
 
     source: {

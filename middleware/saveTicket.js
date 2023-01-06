@@ -17,6 +17,8 @@ const saveTicket = async (req, res, next) => {
         'readProfessor',
         'readStudent',
         'history',
+        'priority',
+        'statement',
       ])
     );
     await ticket.save();
