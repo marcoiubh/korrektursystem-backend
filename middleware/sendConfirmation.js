@@ -35,7 +35,7 @@ const ticketUpdated = async (req, res, next) => {
   // send emails if configuration is enabled only
   // avoid sending email when only read status has been changed by checking email flag
   // see updateTicket
-  console.log('email', req.email);
+
   if (config.get('testEmail') && req.email) {
     const emailText = `
         Your ticket has been updated.

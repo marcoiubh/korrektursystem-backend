@@ -16,14 +16,13 @@ const updateTicket = async (req, res, next) => {
 
     // set an email flag only if statement, priority or status changed
     req.email = ticketContentChanged(oldTicket, newTicket);
-    console.log(req.email);
 
     const ticket = Object.assign(oldTicket, newTicket);
     await ticket.save();
     req.ticket = ticket;
     next();
   } catch (error) {
-    res.status(500).json('Internal server error.');
+    res.status(500).json('Internal Server Error.');
   }
 };
 

@@ -25,7 +25,7 @@ const saveTicket = async (req, res, next) => {
     req.ticket = ticket;
     next();
   } catch (error) {
-    res.status(500).json('Internal server error.');
+    res.status(500).json('Internal Server Error.');
   }
 };
 
