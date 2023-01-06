@@ -8,7 +8,7 @@ let find = {
     return await Ticket.find({ student: email });
   },
 
-  emailToUser: async (email) => {
+  userObjectByEmail: async (email) => {
     // return user with modules
     return await User.findOne({
       email: email,
@@ -30,7 +30,7 @@ let find = {
   },
   ticketsOfProfessor: async (email) => {
     // find supervised modules
-    const user = await find.emailToUser(email);
+    const user = await find.userObjectByEmail(email);
     // find tickets for each module
     if (!user) throw new Error();
     const ticketArray = await find.allTickets(user);
@@ -44,6 +44,7 @@ const getTickets = async (req, res, next) => {
   let ticket = {};
 
   try {
+    // fetch tickets based on user role
     if (role === 'student') {
       ticket = await find.ticketsOfStudent(email);
     } else if (role === 'professor') {

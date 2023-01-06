@@ -71,7 +71,10 @@ describe('find tickets of users', () => {
     stubByModule.withArgs({ title: 'module2' }).returns(ticket2);
     stubByModule.withArgs({ title: 'module3' }).returns(ticket3);
 
-    stubEmailToUser = sandbox.stub(ticketsByMail.find, 'emailToUser');
+    stubEmailToUser = sandbox.stub(
+      ticketsByMail.find,
+      'userObjectByEmail'
+    );
     stubEmailToUser
       .withArgs(loginProfessor1)
       .returns(professorWithModules1);
@@ -149,10 +152,10 @@ describe('find tickets of users', () => {
     describe('findWithModulesPopulated ', () => {
       it('should return user details with modules', () => {
         expect(
-          ticketsByMail.find.emailToUser(loginProfessor1)
+          ticketsByMail.find.userObjectByEmail(loginProfessor1)
         ).to.equal(professorWithModules1);
         expect(
-          ticketsByMail.find.emailToUser(loginProfessor2)
+          ticketsByMail.find.userObjectByEmail(loginProfessor2)
         ).to.equal(professorWithModules2);
       });
     });
