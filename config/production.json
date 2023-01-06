@@ -9,5 +9,5 @@
     "student": "korrektursystem_student@mail.de",
     "professor": "korrektursystem_professor@mail.de"
   },
-  "testEmail": true
+  "emailServiceEnabled": true
 }
