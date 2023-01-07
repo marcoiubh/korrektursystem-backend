@@ -1,10 +1,7 @@
 // create express object called app
 const express = require('express');
-app = express();
 
-// import loggers
-const debug = require('debug')('error');
-const morganBody = require('morgan-body');
+const app = express();
 
 // run startup procedure
 require('./services/checkPrivateKeys')();

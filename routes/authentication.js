@@ -1,10 +1,13 @@
 const _ = require('lodash');
 const express = require('express');
-const router = express.Router();
+
+const generateAuthToken = require('../middleware/generateAuthToken');
 const getUserByEmail = require('../middleware/getUserByEmail');
 const validatePassword = require('../middleware/validatePassword');
-const generateAuthToken = require('../middleware/generateAuthToken');
+
 const Module = require('../models/module');
+
+const router = express.Router();
 
 // login
 router.post(

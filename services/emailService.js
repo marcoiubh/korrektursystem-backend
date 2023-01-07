@@ -1,5 +1,5 @@
-const nodemailer = require('nodemailer');
 const _ = require('lodash');
+const nodemailer = require('nodemailer');
 const config = require('config');
 
 const smtpConfig = () => {

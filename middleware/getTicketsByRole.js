@@ -1,6 +1,5 @@
 const Ticket = require('../models/ticket');
 const User = require('../models/user');
-const debug = require('debug')('info');
 
 let find = {
   ticketsOfStudent: async (email) => {

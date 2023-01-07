@@ -1,4 +1,5 @@
 const config = require('config');
+
 const sendEmail = require('../services/emailService');
 
 const ticketCreated = async (req, res, next) => {
@@ -17,11 +18,7 @@ const ticketCreated = async (req, res, next) => {
   `;
     // send email to professor with ticket title and email text
     try {
-      await sendEmail(
-        config.get('email.professor'),
-        title,
-        emailText
-      );
+      await sendEmail(config.get('email.professor'), title, emailText);
       next();
     } catch (error) {
       res

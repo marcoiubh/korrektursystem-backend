@@ -1,13 +1,15 @@
-const { authorization } = require('../middleware/authorization');
 const express = require('express');
-const router = express.Router();
+
+const { authorization } = require('../middleware/authorization');
 const { getTickets } = require('../middleware/getTicketsByRole');
 const saveTicket = require('../middleware/saveTicket');
-const updateTicket = require('../middleware/updateTicket');
 const {
   ticketCreated,
   ticketUpdated,
 } = require('../middleware/sendConfirmation');
+const updateTicket = require('../middleware/updateTicket');
+
+const router = express.Router();
 
 // router level middleware
 router.use(authorization);

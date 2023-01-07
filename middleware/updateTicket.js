@@ -1,4 +1,5 @@
 const _ = require('lodash');
+
 const Ticket = require('../models/ticket');
 
 const updateTicket = async (req, res, next) => {
