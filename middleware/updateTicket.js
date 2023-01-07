@@ -18,6 +18,9 @@ const updateTicket = async (req, res, next) => {
       'history',
     ]);
 
+    // set an email flag only if statement, priority or status changed
+    req.email = ticketContentChanged(oldTicket, newTicket);
+
     // copy new fields to original ticket
     const ticket = Object.assign(oldTicket, newTicket);
 
@@ -26,9 +29,6 @@ const updateTicket = async (req, res, next) => {
 
     // save ticket in request
     req.ticket = ticket;
-
-    // set an email flag only if statement, priority or status changed
-    req.email = ticketContentChanged(oldTicket, newTicket);
 
     next();
   } catch (error) {
